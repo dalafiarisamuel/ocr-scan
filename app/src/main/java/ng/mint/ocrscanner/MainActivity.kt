@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import kotlinx.android.synthetic.main.activity_main.*
@@ -105,13 +104,11 @@ class MainActivity : BaseActivity() {
             val scanResult =
                 data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT) as? CreditCard
             scanResult?.run {
-                //processCardNumber(this.formattedCardNumber?.replace(" ", "") ?: "")
 
-                Toast.makeText(
-                    this@MainActivity,
-                    this.formattedCardNumber?.replace(" ", "") ?: "",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val panNumber = this.formattedCardNumber?.replace(" ", "") ?: ""
+                if (panNumber.length > 5) {
+                    processCardNumber(panNumber)
+                }
             }
         }
     }
