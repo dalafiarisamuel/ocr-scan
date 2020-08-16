@@ -60,7 +60,7 @@ class MainActivity : BaseActivity() {
 
         val scanIntent = Intent(this, CardIOActivity::class.java)
         // customize these values to suit your needs.
-        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true) // default: false
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, false) // default: false
         scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, false) // default: false
         scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_POSTAL_CODE, false) // default: false
         scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, true) // default: false
