@@ -17,6 +17,7 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import ng.mint.ocrscanner.networking.ConnectionDetector
 import ng.mint.ocrscanner.networking.RequestHandler
 
@@ -27,7 +28,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     open val requestHandler: RequestHandler by lazy {
-        RequestHandler()
+        RequestHandler(lifecycleScope)
     }
 
     open val connectionDetector: ConnectionDetector by lazy {
