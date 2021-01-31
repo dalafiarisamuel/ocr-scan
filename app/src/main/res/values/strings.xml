@@ -12,4 +12,6 @@
     <string name="processing">Processing…</string>
     <string name="no_bin_number_was_found">No BIN number was found.</string>
     <string name="no_internet_connection">No Internet connection</string>
+    <string name="currency">Currency</string>
+    <string name="phone">Phone</string>
 </resources>

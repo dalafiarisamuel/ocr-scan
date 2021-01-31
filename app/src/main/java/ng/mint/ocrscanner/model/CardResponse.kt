@@ -54,6 +54,9 @@ class CardResponse {
 
         @SerializedName("emoji")
         var emoji: String? = null
+
+        @SerializedName("currency")
+        var currency:String? = null
     }
 
     inner class Bank {

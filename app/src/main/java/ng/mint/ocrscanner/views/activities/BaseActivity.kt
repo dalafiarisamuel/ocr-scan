@@ -1,4 +1,4 @@
-package ng.mint.ocrscanner.views
+package ng.mint.ocrscanner.views.activities
 
 import android.Manifest
 import android.app.Activity
@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -45,17 +44,17 @@ abstract class BaseActivity : AppCompatActivity() {
     )
 
 
-    open fun makeActivityFullScreen(window: Window) {
+    open fun makeActivityFullScreen() {
         if (Build.VERSION.SDK_INT >= 21) {
-            window.decorView.systemUiVisibility =
+            this.window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         }
     }
 
-    open fun changeStatusBarColorToTransparent(window: Window) {
+    open fun changeStatusBarColorToTransparent() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.statusBarColor = Color.TRANSPARENT
+            this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            this.window.statusBarColor = Color.TRANSPARENT
         }
     }
 

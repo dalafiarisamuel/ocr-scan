@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -77,7 +78,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/edit_text_bg"
-                    android:onClick="onScanClicked"
                     android:src="@drawable/ic_round_center_focus_weak" />
 
             </RelativeLayout>
@@ -134,9 +134,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/card_scheme_text"
                     android:padding="5dp"
-                    android:text='@{bankData.scheme ?? ""}'
                     android:textColor="@color/matt_black"
                     android:textSize="17sp"
+                    app:customText='@{bankData.scheme ?? ""}'
                     tools:text="Master Card" />
 
                 <TextView
@@ -159,20 +159,20 @@
                     android:layout_below="@id/card_scheme_text"
                     android:layout_alignParentEnd="true"
                     android:padding="5dp"
-                    android:text='@{bankData.type ?? ""}'
                     android:textColor="@color/matt_black"
                     android:textSize="17sp"
+                    app:customText='@{bankData.type ?? ""}'
                     tools:text="Debit" />
 
                 <TextView
-                    android:id="@+id/card_level_text"
+                    android:id="@+id/card_phone_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/card_scheme"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/poppins_semi_bold"
                     android:padding="5dp"
-                    android:text="@string/card_level"
+                    android:text="@string/phone"
                     android:textColor="@color/matt_black"
                     android:textSize="17sp" />
 
@@ -180,12 +180,12 @@
                     android:id="@+id/card_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/card_level_text"
+                    android:layout_below="@id/card_phone_text"
                     android:padding="5dp"
-                    android:text='@{bankData.category ?? ""}'
                     android:textColor="@color/matt_black"
                     android:textSize="17sp"
-                    tools:text="Classic" />
+                    app:customText='@{bankData.bank.phone ?? ""}'
+                    tools:text="+4589893300" />
 
                 <TextView
                     android:id="@+id/card_country_text"
@@ -204,12 +204,12 @@
                     android:id="@+id/card_country"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/card_country_text"
+                    android:layout_below="@id/card_phone_text"
                     android:layout_alignParentEnd="true"
                     android:padding="5dp"
-                    android:text='@{(bankData.country.emoji ?? "") +" "+ (bankData.country.name ?? "")}'
                     android:textColor="@color/matt_black"
                     android:textSize="17sp"
+                    app:customText='@{(bankData.country.emoji ?? "") +" "+ (bankData.country.name ?? "")}'
                     tools:text="🇳🇬 Nigeria" />
 
                 <TextView
@@ -230,10 +230,36 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/card_bank_text"
                     android:padding="5dp"
-                    android:text='@{bankData.bank.name ?? ""}'
                     android:textColor="@color/matt_black"
                     android:textSize="17sp"
+                    app:customText='@{bankData.bank.name ?? ""}'
                     tools:text="Guarantee Trust Bank" />
+
+                <TextView
+                    android:id="@+id/card_currency_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_country"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:padding="5dp"
+                    android:text="@string/currency"
+                    android:textColor="@color/matt_black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/card_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_currency_text"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:textColor="@color/matt_black"
+                    android:textSize="17sp"
+                    app:customText='@{bankData.country.currency ?? ""}'
+                    tools:text="NGN" />
+
 
             </RelativeLayout>
 

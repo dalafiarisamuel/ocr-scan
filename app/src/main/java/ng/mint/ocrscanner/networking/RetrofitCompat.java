@@ -65,7 +65,7 @@ public class RetrofitCompat {
 
 
         return new Retrofit.Builder()
-                .baseUrl("https://binlist.io/lookup/")
+                .baseUrl("https://lookup.binlist.net/")
                 .addConverterFactory(new NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))
                 .client(okHttpBuilder.build())
