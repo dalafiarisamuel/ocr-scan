@@ -15,7 +15,7 @@ open class RequestHandler constructor(coroutineScope: CoroutineScope) {
     private var coroutineScope: CoroutineScope
 
     init {
-        val retrofit: Retrofit = RetrofitCompat.getInstance("false")
+        val retrofit: Retrofit = RetrofitCompat.getInstance()
         this.client = retrofit.create(ApiInterface::class.java)
         this.coroutineScope = coroutineScope
     }
