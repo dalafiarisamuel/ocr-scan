@@ -2,7 +2,8 @@ package ng.mint.ocrscanner.networking
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
+import android.net.NetworkCapabilities
+
 
 class ConnectionDetector(private val _context: Context) {
 
@@ -11,16 +12,18 @@ class ConnectionDetector(private val _context: Context) {
      */
     fun isConnectingToInternet(): Boolean {
 
-        val connectivity =
+        // It answers the queries about the state of network connectivity.
+        val connectivityManager =
             _context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val info = connectivity.allNetworkInfo
-        for (i in info.indices) if (info[i]
-                .state == NetworkInfo.State.CONNECTED
-        ) {
-            return true
+        val network = connectivityManager.activeNetwork ?: return false
+        val activeNetWork = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return when {
+            activeNetWork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            activeNetWork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            //for other device how are able to connect with Ethernet
+            activeNetWork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
         }
-        return false
 
     }
 

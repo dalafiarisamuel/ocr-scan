@@ -2,74 +2,69 @@ package ng.mint.ocrscanner.model
 
 import com.google.gson.annotations.SerializedName
 
-class CardResponse {
-
+data class CardResponse(
     @SerializedName("success")
-    var success: Boolean? = null
+    var success: Boolean? = null,
 
     @SerializedName("scheme")
-    var scheme: String? = null
+    var scheme: String? = null,
 
     @SerializedName("type")
-    var type: String? = null
+    var type: String? = null,
 
     @SerializedName("reason")
-    var reason: String? = null
+    var reason: String? = null,
 
     @SerializedName("category")
-    var category: String? = null
+    var category: String? = null,
 
     @SerializedName("number")
-    var number: Number? = null
+    var number: Number? = null,
 
     @SerializedName("country")
-    var country: Country? = null
+    var country: Country? = null,
 
     @SerializedName("bank")
     var bank: Bank? = null
+) {
 
 
-    inner class Number {
-
+    data class Number(
         @SerializedName("iin")
-        var lin: String? = null
+        var lin: String? = null,
 
         @SerializedName("length")
-        var length: Int? = null
+        var length: Int? = null,
 
         @SerializedName("luhn")
         var luhn: Boolean? = null
-    }
+    )
 
-    inner class Country {
-
+    data class Country(
         @SerializedName("alpha2")
-        var alpha2: String? = null
+        var alpha2: String? = null,
 
         @SerializedName("alpha3")
-        var alpha3: String? = null
+        var alpha3: String? = null,
 
         @SerializedName("name")
-        var name: String? = null
+        var name: String? = null,
 
         @SerializedName("emoji")
-        var emoji: String? = null
+        var emoji: String? = null,
 
         @SerializedName("currency")
-        var currency:String? = null
-    }
+        var currency: String? = null
+    )
 
-    inner class Bank {
-
+    data class Bank(
         @SerializedName("name")
-        var name: String? = null
+        var name: String? = null,
 
         @SerializedName("phone")
-        var phone: String? = null
+        var phone: String? = null,
 
         @SerializedName("url")
         var url: String? = null
-
-
-    }
+    )
 }
