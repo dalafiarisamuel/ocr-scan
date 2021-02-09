@@ -14,4 +14,6 @@
     <string name="no_internet_connection">No Internet connection</string>
     <string name="currency">Currency</string>
     <string name="phone">Phone</string>
+    <string name="no_cards_added_yet">No Cards saved yet</string>
+    <string name="recently_viewed_cards">Recently\nViewed Cards</string>
 </resources>

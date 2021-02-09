@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorActivityWhiteBackground"
+        tools:context=".views.activities.RecentCardsActivity">
+
+
+        <RelativeLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="21dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backArrow"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_round_arrow"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/backArrowText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/backArrow"
+                android:layout_alignTop="@id/backArrow"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@id/backArrow"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="@string/recently_viewed_cards"
+                android:textColor="@color/matt_black"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/saved_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_layout"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="21dp"
+            android:overScrollMode="never"
+            android:visibility="gone"
+            tools:itemCount="15"
+            tools:listitem="@layout/recent_cards_view"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/no_result_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/title_layout"
+            android:layout_gravity="center"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="-60dp"
+            android:layout_marginEnd="21dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:visibility="gone">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/no_item_circle_shape" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/ic_round_credit_card"
+                        app:tint="@color/colorActivityWhiteBackground" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="@string/no_cards_added_yet"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</layout>

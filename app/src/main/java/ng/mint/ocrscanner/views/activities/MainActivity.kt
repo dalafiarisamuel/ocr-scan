@@ -1,31 +1,41 @@
-package ng.mint.ocrscanner
+package ng.mint.ocrscanner.views.activities
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import ng.mint.ocrscanner.R
 import ng.mint.ocrscanner.callbacks.ProcessCardDetail
+import ng.mint.ocrscanner.database.Database
 import ng.mint.ocrscanner.databinding.ActivityMainBinding
 import ng.mint.ocrscanner.model.CardResult
-import ng.mint.ocrscanner.viewmodel.CardResponseViewModel
-import ng.mint.ocrscanner.views.activities.BaseActivity
+import ng.mint.ocrscanner.viewmodel.CardViewModelFactory
+import ng.mint.ocrscanner.viewmodel.CardsRepository
+import ng.mint.ocrscanner.viewmodel.CardsViewModel
 import ng.mint.ocrscanner.views.mvc.MainActivityViewsMvc
 
 
 class MainActivity : BaseActivity(), ProcessCardDetail {
 
-    companion object {
-        const val MY_SCAN_REQUEST_CODE = 100
-    }
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var view: MainActivityViewsMvc
-    private val viewModel: CardResponseViewModel by lazy {
-        ViewModelProvider(this).get(CardResponseViewModel::class.java)
+    private val repository: CardsRepository by lazy {
+        CardsRepository(Database.getInstance(this))
+    }
+
+    private val viewModelFactory: CardViewModelFactory by lazy {
+        CardViewModelFactory(application, repository)
+    }
+    private val viewModel: CardsViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory).get(
+            CardsViewModel::class.java
+        )
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestPermissionsFromDevice()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         view = MainActivityViewsMvc(this, binding, this)

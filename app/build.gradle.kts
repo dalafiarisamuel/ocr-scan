@@ -60,7 +60,6 @@ dependencies {
     val kotlinCoroutineVersion = "1.3.0"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutineVersion")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
 
 
     // Retrofit
@@ -75,5 +74,16 @@ dependencies {
     val lifecycleVersion = "2.3.0-alpha07"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
+
+    val roomVersion = "2.2.5"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation ("androidx.room:room-ktx:$roomVersion")
+
+    //glide library
+    implementation ("com.github.bumptech.glide:glide:4.11.0")
+    kapt( "com.github.bumptech.glide:compiler:4.9.0")
 
 }

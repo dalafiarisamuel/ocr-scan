@@ -19,7 +19,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,UnusedAttribute">
         <activity
-            android:name=".MainActivity"
+            android:name=".views.activities.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -28,6 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".views.activities.RecentCardsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>

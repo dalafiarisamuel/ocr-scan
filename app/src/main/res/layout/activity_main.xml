@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorActivityWhiteBackground"
-        tools:context=".MainActivity">
+        tools:context=".views.activities.MainActivity">
 
         <LinearLayout
             android:id="@+id/relativeLayout"
@@ -27,12 +27,42 @@
             android:layout_marginEnd="21dp"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/navigationView"
-                layout="@layout/top_navigation_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/backArrow"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_credit_card"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/backArrowText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/backArrow"
+                    android:layout_alignTop="@id/backArrow"
+                    android:layout_toEndOf="@id/backArrow"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="@string/credit_card_information"
+                    android:textColor="@color/matt_black"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/recent_cards"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_recent" />
+
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"

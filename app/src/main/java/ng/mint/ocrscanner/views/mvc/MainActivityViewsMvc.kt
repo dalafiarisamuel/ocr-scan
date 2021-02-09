@@ -6,17 +6,22 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
-import ng.mint.ocrscanner.MainActivity
 import ng.mint.ocrscanner.callbacks.ProcessCardDetail
 import ng.mint.ocrscanner.databinding.ActivityMainBinding
 import ng.mint.ocrscanner.model.CardResult
 import ng.mint.ocrscanner.views.activities.BaseActivity
+import ng.mint.ocrscanner.views.activities.RecentCardsActivity
 
 class MainActivityViewsMvc(
     context: Context,
     private val binding: ActivityMainBinding,
     private val process: ProcessCardDetail
 ) {
+
+    companion object {
+        const val MY_SCAN_REQUEST_CODE = 100
+    }
+
 
     private var activity: BaseActivity = context as BaseActivity
 
@@ -37,12 +42,16 @@ class MainActivityViewsMvc(
 
         binding.scanButton.setOnClickListener(this::onScanClicked)
 
+        binding.recentCards.setOnClickListener {
+            context.startActivity(RecentCardsActivity.start(context))
+        }
+
     }
 
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (requestCode == MainActivity.MY_SCAN_REQUEST_CODE && data != null) {
+        if (requestCode == MY_SCAN_REQUEST_CODE && data != null) {
             val scanResult =
                 data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT) as? CreditCard
             scanResult?.run {
@@ -57,8 +66,6 @@ class MainActivityViewsMvc(
 
     private fun onScanClicked(view: View) {
 
-        activity.requestPermissionsFromDevice()
-
         val scanIntent = Intent(activity, CardIOActivity::class.java)
         // customize these values to suit your needs.
         scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, false) // default: false
@@ -67,8 +74,7 @@ class MainActivityViewsMvc(
         scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, true) // default: false
         scanIntent.putExtra(CardIOActivity.EXTRA_HIDE_CARDIO_LOGO, true) // default: false
 
-        // MY_SCAN_REQUEST_CODE is arbitrary and is only used within this activity.
-        activity.startActivityForResult(scanIntent, MainActivity.MY_SCAN_REQUEST_CODE)
+        activity.startActivityForResult(scanIntent, MY_SCAN_REQUEST_CODE)
     }
 
     fun updateValue(cardResult: CardResult) {
