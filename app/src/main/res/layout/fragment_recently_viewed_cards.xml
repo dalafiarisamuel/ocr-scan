@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorActivityWhiteBackground"
-        tools:context=".views.activities.RecentCardsActivity">
+        tools:context=".views.fragments.RecentlyViewedCardsFragment">
 
 
         <RelativeLayout
