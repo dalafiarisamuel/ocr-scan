@@ -63,7 +63,7 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
         binding.scanButton.setOnClickListener(this::onScanClicked)
 
         binding.recentCards.setOnClickListener {
-
+            activity.hideKeyboard()
             it.findNavController()
                 .navigate(R.id.action_cardInformationFragment_to_recentlyViewedCardsFragment)
 
