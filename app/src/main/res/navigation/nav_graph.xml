@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/cardInformationFragment">
+
+    <fragment
+        android:id="@+id/cardInformationFragment"
+        android:name="ng.mint.ocrscanner.views.fragments.CardInformationFragment"
+        android:label="CardInformationFragment"
+        tools:layout="@layout/fragment_card_information">
+        <action
+            android:id="@+id/action_cardInformationFragment_to_recentlyViewedCardsFragment"
+            app:destination="@id/recentlyViewedCardsFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/recentlyViewedCardsFragment"
+        android:name="ng.mint.ocrscanner.views.fragments.RecentlyViewedCardsFragment"
+        android:label="RecentlyViewedCardsFragment"
+        tools:layout="@layout/fragment_recently_viewed_cards">
+        <action
+            android:id="@+id/action_recentlyViewedCardsFragment_to_cardInformationFragment"
+            app:destination="@id/cardInformationFragment" />
+    </fragment>
+</navigation>
