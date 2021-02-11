@@ -28,7 +28,7 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
         const val MY_SCAN_REQUEST_CODE = 500
     }
 
-    private var binding: FragmentCardInformationBinding? = null
+    private val binding by viewBinding(FragmentCardInformationBinding::bind)
     private lateinit var activity: BaseActivity
 
     private lateinit var progressDialog: ProgressDialogManager
@@ -40,9 +40,6 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bind = FragmentCardInformationBinding.bind(view)
-        binding = bind
-
         activity = getActivity() as BaseActivity
 
         progressDialog = activity.progressDialog
@@ -50,22 +47,22 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
         internetConnection = activity.internetConnection
 
 
-        binding?.panInputField?.doAfterTextChanged {
+        binding.panInputField.doAfterTextChanged {
 
-            binding?.cardInformationLayout?.visibility = View.GONE
+            binding.cardInformationLayout.visibility = View.GONE
         }
 
-        binding?.nextButton?.setOnClickListener {
+        binding.nextButton.setOnClickListener {
             activity.hideKeyboard()
-            val panNumber = binding?.panInputField?.text?.toString() ?: ""
+            val panNumber = binding.panInputField.text.toString()
             if (panNumber.length > 5) {
                 processCard(panNumber.take(8))
             }
         }
 
-        binding?.scanButton?.setOnClickListener(this::onScanClicked)
+        binding.scanButton.setOnClickListener(this::onScanClicked)
 
-        binding?.recentCards?.setOnClickListener {
+        binding.recentCards.setOnClickListener {
 
             it.findNavController()
                 .navigate(R.id.action_cardInformationFragment_to_recentlyViewedCardsFragment)
@@ -131,10 +128,10 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
     private fun updateValue(cardResult: CardResult) {
         when (cardResult) {
             is CardResult.Success -> {
-                binding?.bankData = cardResult.data
+                binding.bankData = cardResult.data
             }
             is CardResult.Failure -> {
-                binding?.cardInformationLayout?.visibility = View.GONE
+                binding.cardInformationLayout.visibility = View.GONE
             }
         }
     }
@@ -151,14 +148,6 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
 
         }
 
-    }
-
-
-    override fun onDestroyView() {
-        // Consider not storing the binding instance in a field
-        // if not needed.
-        binding = null
-        super.onDestroyView()
     }
 
 

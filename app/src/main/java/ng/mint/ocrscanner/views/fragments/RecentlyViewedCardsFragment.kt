@@ -18,7 +18,7 @@ import ng.mint.ocrscanner.viewmodel.CardsViewModel
 import ng.mint.ocrscanner.views.activities.BaseActivity
 
 class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_cards) {
-    private var binding: FragmentRecentlyViewedCardsBinding? = null
+    private val binding by viewBinding(FragmentRecentlyViewedCardsBinding::bind)
 
     private lateinit var viewModel: CardsViewModel
     private lateinit var activity: BaseActivity
@@ -30,22 +30,16 @@ class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_c
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         activity = getActivity() as BaseActivity
 
-        val bind = FragmentRecentlyViewedCardsBinding.bind(view)
-        binding = bind
-
-
-
-        binding?.backArrow?.setOnClickListener {
+        binding.backArrow.setOnClickListener {
             it.findNavController().popBackStack()
         }
 
 
         val layoutMan = LinearLayoutManager(context)
-        binding?.savedRecyclerview?.layoutManager = layoutMan
-        binding?.savedRecyclerview?.adapter = adapter
+        binding.savedRecyclerview.layoutManager = layoutMan
+        binding.savedRecyclerview.adapter = adapter
 
         val repository = CardsRepository(Database.getInstance(activity))
 
@@ -68,22 +62,16 @@ class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_c
     private fun setData(dataState: RecentCardsState) {
         when (dataState) {
             is RecentCardsState.EmptyList -> {
-                binding?.noResultDisplay?.visibility = View.VISIBLE
-                binding?.savedRecyclerview?.visibility = View.GONE
+                binding.noResultDisplay.visibility = View.VISIBLE
+                binding.savedRecyclerview.visibility = View.GONE
             }
             is RecentCardsState.RecentCardList -> {
-                binding?.noResultDisplay?.visibility = View.GONE
-                binding?.savedRecyclerview?.visibility = View.VISIBLE
+                binding.noResultDisplay.visibility = View.GONE
+                binding.savedRecyclerview.visibility = View.VISIBLE
                 adapter.addData(dataState.data)
             }
         }
 
     }
-
-    override fun onDestroyView() {
-        // Consider not storing the binding instance in a field
-        // if not needed.
-        binding = null
-        super.onDestroyView()
-    }
+    
 }
