@@ -29,7 +29,6 @@ object RetrofitCompat {
         }
         return Retrofit.Builder()
             .baseUrl("https://lookup.binlist.net/")
-            .addConverterFactory(NullOnEmptyConverterFactory())
             .addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder().serializeNulls().create()
