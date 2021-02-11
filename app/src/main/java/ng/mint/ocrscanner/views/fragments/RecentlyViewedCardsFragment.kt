@@ -79,4 +79,11 @@ class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_c
         }
 
     }
+
+    override fun onDestroyView() {
+        // Consider not storing the binding instance in a field
+        // if not needed.
+        binding = null
+        super.onDestroyView()
+    }
 }
