@@ -157,7 +157,7 @@
                     android:padding="5dp"
                     android:text="@string/card_scheme"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/card_scheme"
@@ -166,7 +166,7 @@
                     android:layout_below="@id/card_scheme_text"
                     android:padding="5dp"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     app:customText='@{bankData.scheme ?? ""}'
                     tools:text="Master Card" />
 
@@ -181,7 +181,7 @@
                     android:padding="5dp"
                     android:text="@string/card_type"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/card_type"
@@ -191,7 +191,7 @@
                     android:layout_alignParentEnd="true"
                     android:padding="5dp"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     app:customText='@{bankData.type ?? ""}'
                     tools:text="Debit" />
 
@@ -205,16 +205,16 @@
                     android:padding="5dp"
                     android:text="@string/phone"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp" />
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/card_level"
+                    android:id="@+id/phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/card_phone_text"
                     android:padding="5dp"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     app:customText='@{bankData.bank.phone ?? ""}'
                     tools:text="+4589893300" />
 
@@ -229,7 +229,7 @@
                     android:padding="5dp"
                     android:text="@string/country"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/card_country"
@@ -237,9 +237,13 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/card_phone_text"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/phone"
+                    android:gravity="end"
+                    android:lines="2"
                     android:padding="5dp"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     app:customText='@{(bankData.country.emoji ?? "") +" "+ (bankData.country.name ?? "")}'
                     tools:text="🇳🇬 Nigeria" />
 
@@ -247,13 +251,12 @@
                     android:id="@+id/card_bank_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/card_level"
-                    android:layout_marginTop="20dp"
+                    android:layout_alignTop="@id/card_currency_text"
                     android:fontFamily="@font/poppins_semi_bold"
                     android:padding="5dp"
                     android:text="@string/card_bank"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/card_bank"
@@ -262,7 +265,7 @@
                     android:layout_below="@id/card_bank_text"
                     android:padding="5dp"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     app:customText='@{bankData.bank.name ?? ""}'
                     tools:text="Guarantee Trust Bank" />
 
@@ -277,7 +280,7 @@
                     android:padding="5dp"
                     android:text="@string/currency"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/card_currency"
@@ -287,7 +290,7 @@
                     android:layout_alignParentEnd="true"
                     android:padding="5dp"
                     android:textColor="@color/matt_black"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     app:customText='@{bankData.country.currency ?? ""}'
                     tools:text="NGN" />
 

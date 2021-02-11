@@ -42,8 +42,12 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@id/bin"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@id/bin"
+            android:gravity="end"
+            android:lines="2"
             android:textColor="@color/matt_black"
             android:textSize="14sp"
             tools:text="🇳🇬 Nigeria" />

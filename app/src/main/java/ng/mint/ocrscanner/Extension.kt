@@ -28,4 +28,8 @@ fun Date.formatToViewDateTimeDefaults(): String {
 }
 
 
+fun String.capitalizeWords(): String =
+    split(" ").joinToString(" ") { it.capitalize(Locale.getDefault()) }
+
+
 

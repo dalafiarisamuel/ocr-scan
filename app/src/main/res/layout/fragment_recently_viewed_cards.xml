@@ -53,10 +53,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="21dp"
             android:overScrollMode="never"
-            android:visibility="gone"
             tools:itemCount="15"
-            tools:listitem="@layout/recent_cards_view"
-            tools:visibility="visible" />
+            tools:listitem="@layout/recent_cards_view" />
 
         <LinearLayout
             android:id="@+id/no_result_display"
@@ -68,6 +66,7 @@
             android:layout_marginTop="-60dp"
             android:layout_marginEnd="21dp"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="vertical"
             tools:visibility="gone">
 
