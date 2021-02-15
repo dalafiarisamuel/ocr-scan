@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import ng.mint.ocrscanner.R
 import ng.mint.ocrscanner.adapters.RecentCardsAdapter
 import ng.mint.ocrscanner.database.Database
@@ -16,6 +19,7 @@ import ng.mint.ocrscanner.viewmodel.CardViewModelFactory
 import ng.mint.ocrscanner.viewmodel.CardsRepository
 import ng.mint.ocrscanner.viewmodel.CardsViewModel
 import ng.mint.ocrscanner.views.activities.BaseActivity
+import java.io.IOException
 
 class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_cards) {
     private val binding by viewBinding(FragmentRecentlyViewedCardsBinding::bind)
@@ -51,7 +55,14 @@ class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_c
             CardsViewModel::class.java
         )
 
-        viewModel.getRecentCardDataListLive().observe(viewLifecycleOwner, this::observeData)
+        lifecycleScope.launchWhenCreated {
+
+            viewModel.getRecentCardDataListLive().catch {
+                if (this is IOException) {
+                    emit(mutableListOf())
+                }
+            }.collect { observeData(it) }
+        }
     }
 
     private fun observeData(data: List<RecentCard>) {
@@ -73,5 +84,5 @@ class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_c
         }
 
     }
-    
+
 }
