@@ -4,7 +4,6 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import ng.mint.ocrscanner.capitalizeWords
 import ng.mint.ocrscanner.model.CardResponse
-import java.util.*
 
 object CustomBindAdapter {
 

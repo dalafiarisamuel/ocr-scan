@@ -62,11 +62,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutineVersion")
 
 
-    // Retrofit
-    implementation("com.google.code.gson:gson:2.8.6")
+    // Retrofit and moshi converters
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-scalars:2.3.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.6.2")
+    implementation("com.squareup.retrofit2:converter-moshi:2.6.2")
+    implementation("com.squareup.moshi:moshi-kotlin:1.9.3")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.9.3")
 
     // card ocr scanner
     implementation("io.card:android-sdk:5.5.1")
@@ -88,9 +88,9 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     //jetpack lifecycle components
-    implementation("androidx.lifecycle:lifecycle-runtime:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-runtime:2.3.0")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.3.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0")
 
 }

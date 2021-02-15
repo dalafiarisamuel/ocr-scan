@@ -1,70 +1,74 @@
 package ng.mint.ocrscanner.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class CardResponse(
-    @SerializedName("success")
+    @Json(name = "success")
     var success: Boolean? = null,
 
-    @SerializedName("scheme")
+    @Json(name = "scheme")
     var scheme: String? = null,
 
-    @SerializedName("type")
+    @Json(name = "type")
     var type: String? = null,
 
-    @SerializedName("reason")
+    @Json(name = "reason")
     var reason: String? = null,
 
-    @SerializedName("category")
+    @Json(name = "category")
     var category: String? = null,
 
-    @SerializedName("number")
+    @Json(name = "number")
     var number: Number? = null,
 
-    @SerializedName("country")
+    @Json(name = "country")
     var country: Country? = null,
 
-    @SerializedName("bank")
+    @Json(name = "bank")
     var bank: Bank? = null
 ) {
 
-
+    @JsonClass(generateAdapter = true)
     data class Number(
-        @SerializedName("iin")
+        @Json(name = "iin")
         var lin: String? = null,
 
-        @SerializedName("length")
+        @Json(name = "length")
         var length: Int? = null,
 
-        @SerializedName("luhn")
+        @Json(name = "luhn")
         var luhn: Boolean? = null
     )
 
+    @JsonClass(generateAdapter = true)
     data class Country(
-        @SerializedName("alpha2")
+        @Json(name = "alpha2")
         var alpha2: String? = null,
 
-        @SerializedName("alpha3")
+        @Json(name = "alpha3")
         var alpha3: String? = null,
 
-        @SerializedName("name")
+        @Json(name = "name")
         var name: String? = null,
 
-        @SerializedName("emoji")
+        @Json(name = "emoji")
         var emoji: String? = null,
 
-        @SerializedName("currency")
+        @Json(name = "currency")
         var currency: String? = null
     )
 
+    @JsonClass(generateAdapter = true)
     data class Bank(
-        @SerializedName("name")
+        @Json(name = "name")
         var name: String? = null,
 
-        @SerializedName("phone")
+        @Json(name = "phone")
         var phone: String? = null,
 
-        @SerializedName("url")
+        @Json(name = "url")
         var url: String? = null
     )
 }

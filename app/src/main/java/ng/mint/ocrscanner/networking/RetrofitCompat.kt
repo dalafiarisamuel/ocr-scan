@@ -1,10 +1,11 @@
 package ng.mint.ocrscanner.networking
 
-import com.google.gson.GsonBuilder
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitCompat {
@@ -27,13 +28,14 @@ object RetrofitCompat {
                 chain.proceed(newRequest.build())
             }
         }
+
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+
         return Retrofit.Builder()
             .baseUrl("https://lookup.binlist.net/")
-            .addConverterFactory(
-                GsonConverterFactory.create(
-                    GsonBuilder().serializeNulls().create()
-                )
-            )
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(okHttpBuilder.build())
             .build()
     }
