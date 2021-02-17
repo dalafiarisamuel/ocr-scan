@@ -6,9 +6,12 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import ng.mint.ocrscanner.R
 import ng.mint.ocrscanner.database.Database
 import ng.mint.ocrscanner.databinding.FragmentCardInformationBinding
@@ -20,6 +23,7 @@ import ng.mint.ocrscanner.viewmodel.CardsViewModel
 import ng.mint.ocrscanner.views.activities.BaseActivity
 import ng.mint.ocrscanner.views.common.MessageDialogManager
 import ng.mint.ocrscanner.views.common.ProgressDialogManager
+import java.io.IOException
 
 class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
 
@@ -79,7 +83,11 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
             CardsViewModel::class.java
         )
 
-        viewModel.data.observe(viewLifecycleOwner, this::observeData)
+        lifecycleScope.launchWhenCreated {
+            viewModel.data.catch {
+                if (this is IOException) emit(CardResult.Failure)
+            }.collect { observeData(it) }
+        }
 
     }
 

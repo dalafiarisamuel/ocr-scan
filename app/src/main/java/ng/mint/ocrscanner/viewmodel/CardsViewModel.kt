@@ -2,9 +2,9 @@ package ng.mint.ocrscanner.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import ng.mint.ocrscanner.callbacks.CardCallable
 import ng.mint.ocrscanner.model.CardResponse
@@ -20,33 +20,39 @@ class CardsViewModel(application: Application, private val repository: CardsRepo
 
     private val requestHandler: RequestHandler = RequestHandler(viewModelScope)
 
-    var data = MutableLiveData<CardResult>()
+    var data = MutableSharedFlow<CardResult>(replay = 1)
         private set
 
-    private fun updateData(cardResult: CardResult) = data.postValue(cardResult)
+    private suspend fun updateData(cardResult: CardResult) = data.emit(cardResult)
 
     fun processCardDetail(value: String) {
         requestHandler.getCardDetail(value, object : CardCallable {
             override fun onGetCard(cardResponse: CardResponse?) {
 
-                when (cardResponse == null) {
-                    true -> {
-                        updateData(CardResult.Failure)
-                    }
-                    false -> {
-                        updateData(CardResult.Success(cardResponse))
-                        insertSingleRecentCard(cardResponse.toRecentCard(value))
+                viewModelScope.launch {
+                    when (cardResponse == null) {
+                        true -> {
+                            updateData(CardResult.Failure)
+                        }
+                        false -> {
+                            updateData(CardResult.Success(cardResponse))
+                            insertSingleRecentCard(cardResponse.toRecentCard(value))
+                        }
                     }
                 }
 
             }
 
             override fun onGetCardError(error: ResponseBody?, responseCode: Int) {
-                updateData(CardResult.Failure)
+                viewModelScope.launch {
+                    updateData(CardResult.Failure)
+                }
             }
 
             override fun onGetCardFailureCall(call: Call<CardResponse>?, t: Throwable?) {
-                updateData(CardResult.Failure)
+                viewModelScope.launch {
+                    updateData(CardResult.Failure)
+                }
             }
         })
 
