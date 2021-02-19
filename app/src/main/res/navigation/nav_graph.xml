@@ -24,5 +24,18 @@
         <action
             android:id="@+id/action_recentlyViewedCardsFragment_to_cardInformationFragment"
             app:destination="@id/cardInformationFragment" />
+        <action
+            android:id="@+id/action_recentlyViewedCardsFragment_to_recentCardDetailFragment"
+            app:destination="@id/recentCardDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recentCardDetailFragment"
+        android:name="ng.mint.ocrscanner.views.fragments.RecentCardDetailFragment"
+        android:label="RecentCardDetailFragment"
+        tools:layout="@layout/fragment_recent_card_detail">
+        <argument
+            android:name="recentCard"
+            app:argType="ng.mint.ocrscanner.model.RecentCard"
+            app:nullable="false" />
     </fragment>
 </navigation>

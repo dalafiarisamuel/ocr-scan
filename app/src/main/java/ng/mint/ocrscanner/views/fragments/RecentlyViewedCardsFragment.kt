@@ -30,6 +30,12 @@ class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_c
 
     private val adapter = RecentCardsAdapter {
 
+        val action =
+            RecentlyViewedCardsFragmentDirections.actionRecentlyViewedCardsFragmentToRecentCardDetailFragment(
+                it
+            )
+        binding.savedRecyclerview.findNavController().navigate(action)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,10 +1,15 @@
 package ng.mint.ocrscanner.model
 
+import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Keep
+@Parcelize
 @Entity(indices = [Index(value = ["bin"], unique = true)])
 data class RecentCard(
 
@@ -39,4 +44,4 @@ data class RecentCard(
     @ColumnInfo(name = "date_created")
     var dateCreated: String? = null
 
-)
+):Parcelable

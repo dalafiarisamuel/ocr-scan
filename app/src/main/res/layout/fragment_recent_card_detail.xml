@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="recentCard"
+            type="ng.mint.ocrscanner.model.RecentCard" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorActivityWhiteBackground"
+        android:overScrollMode="never"
+        tools:context=".views.fragments.RecentCardDetailFragment">
+
+        <LinearLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="21dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/backArrow"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_round_arrow"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/backArrowText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/backArrow"
+                    android:layout_alignTop="@id/backArrow"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/backArrow"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="@string/credit_card_information"
+                    android:textColor="@color/matt_black"
+                    android:textSize="22sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/card_information_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:visibility='@{recentCard == null ? View.GONE:View.VISIBLE}'
+                tools:visibility="visible">
+
+
+                <View
+                    android:id="@+id/linear_dash"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/black_dashed_lines"
+                    android:layerType="software" />
+
+                <TextView
+                    android:id="@+id/card_scheme_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/linear_dash"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:padding="5dp"
+                    android:text="@string/card_scheme"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/card_scheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_scheme_text"
+                    android:padding="5dp"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp"
+                    app:customText='@{recentCard.scheme ?? ""}'
+                    tools:text="Master Card" />
+
+                <TextView
+                    android:id="@+id/card_type_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/linear_dash"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:padding="5dp"
+                    android:text="@string/card_type"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/card_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_scheme_text"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp"
+                    app:customText='@{recentCard.type ?? ""}'
+                    tools:text="Debit" />
+
+                <TextView
+                    android:id="@+id/card_phone_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_scheme"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:padding="5dp"
+                    android:text="@string/phone"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_phone_text"
+                    android:padding="5dp"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp"
+                    app:customText='@{recentCard.phone ?? ""}'
+                    tools:text="+4589893300" />
+
+                <TextView
+                    android:id="@+id/card_country_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_type"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:padding="5dp"
+                    android:text="@string/country"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/card_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_phone_text"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/phone"
+                    android:gravity="end"
+                    android:lines="2"
+                    android:padding="5dp"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp"
+                    app:customText='@{(recentCard.emoji ?? "") +" "+ (recentCard.country ?? "")}'
+                    tools:text="🇳🇬 Nigeria" />
+
+                <TextView
+                    android:id="@+id/card_bank_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/card_currency_text"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:padding="5dp"
+                    android:text="@string/card_bank"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/card_bank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_bank_text"
+                    android:padding="5dp"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp"
+                    app:customText='@{recentCard.bank ?? ""}'
+                    tools:text="Guarantee Trust Bank" />
+
+                <TextView
+                    android:id="@+id/card_currency_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_country"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:padding="5dp"
+                    android:text="@string/currency"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/card_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_currency_text"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:textColor="@color/matt_black"
+                    android:textSize="16sp"
+                    app:customText='@{recentCard.currency ?? ""}'
+                    tools:text="NGN" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</layout>
