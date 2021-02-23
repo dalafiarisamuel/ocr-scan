@@ -5,6 +5,5 @@ object Plugins {
     val androidExtension = "android.extensions"
     val kapt = "kapt"
     val androidxNavigationsafeArgsKotlin = "androidx.navigation.safeargs.kotlin"
-    val dependencyVersionChecker = "name.remal.check-dependency-updates"
 
 }
