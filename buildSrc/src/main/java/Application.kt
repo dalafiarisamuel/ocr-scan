@@ -1,6 +1,6 @@
 object Application {
 
-    val id = "ng.mint.ocrscanner"
-    val versionCode = 1
-    val versionName = "1.0"
+    const val id = "ng.mint.ocrscanner"
+    const val versionCode = 1
+    const val versionName = "1.0"
 }

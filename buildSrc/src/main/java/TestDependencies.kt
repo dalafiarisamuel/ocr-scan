@@ -1,4 +1,4 @@
 object TestDependencies {
 
-    val junit4 = "junit:junit:${Versions.junit4Version}"
+    const val junit4 = "junit:junit:${Versions.junit4Version}"
 }

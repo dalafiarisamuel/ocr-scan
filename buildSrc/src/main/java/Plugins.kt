@@ -1,9 +1,9 @@
 object Plugins {
 
-    val androidApplication = "com.android.application"
-    val android = "android"
-    val androidExtension = "android.extensions"
-    val kapt = "kapt"
-    val androidxNavigationsafeArgsKotlin = "androidx.navigation.safeargs.kotlin"
+    const val androidApplication = "com.android.application"
+    const val android = "android"
+    const val androidExtension = "android.extensions"
+    const val kapt = "kapt"
+    const val androidxNavigationsafeArgsKotlin = "androidx.navigation.safeargs.kotlin"
 
 }
