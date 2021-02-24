@@ -13,4 +13,5 @@
 .externalNativeBuild
 .cxx
 /buildSrc/build
+/buildSrc/build/
 
