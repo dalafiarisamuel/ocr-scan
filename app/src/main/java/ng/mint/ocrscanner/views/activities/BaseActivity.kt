@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import ng.mint.ocrscanner.networking.ConnectionDetector
 import ng.mint.ocrscanner.views.common.DialogsCompositionRoot
 
+@Suppress("DEPRECATION")
 abstract class BaseActivity : AppCompatActivity() {
 
     companion object {

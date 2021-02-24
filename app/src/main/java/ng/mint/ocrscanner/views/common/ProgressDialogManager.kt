@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package ng.mint.ocrscanner.views.common
 
 import android.app.ProgressDialog

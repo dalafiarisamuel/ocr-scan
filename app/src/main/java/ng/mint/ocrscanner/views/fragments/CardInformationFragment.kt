@@ -91,7 +91,7 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
 
     }
 
-    private fun onCardActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    private fun onCardActivityResult(requestCode: Int, data: Intent?) {
 
         if (requestCode == MY_SCAN_REQUEST_CODE && data != null) {
             val scanResult =
@@ -117,10 +117,10 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        onCardActivityResult(requestCode = requestCode, resultCode = resultCode, data = data)
+        onCardActivityResult(requestCode = requestCode, data = data)
     }
 
-    private fun onScanClicked(view: View) {
+    private fun onScanClicked(@Suppress("UNUSED_PARAMETER") view: View) {
 
         val scanIntent = Intent(activity, CardIOActivity::class.java)
         // customize these values to suit your needs.
