@@ -1,7 +1,9 @@
 object SupportDependencies {
 
-    const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
-    const val constraintlayout =
+    private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+    private const val constraintlayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout}"
-    const val materialDesign = "com.google.android.material:material:${Versions.materialDesign}"
+    private const val materialDesign = "com.google.android.material:material:${Versions.materialDesign}"
+
+    val supportImplementation = listOf(appcompat, constraintlayout, materialDesign)
 }

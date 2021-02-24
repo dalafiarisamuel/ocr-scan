@@ -1,4 +1,6 @@
 object TestDependencies {
 
-    const val junit4 = "junit:junit:${Versions.junit4Version}"
+    private const val junit4 = "junit:junit:${Versions.junit4Version}"
+
+    val testImplementation = listOf(junit4)
 }
