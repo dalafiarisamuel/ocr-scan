@@ -6,10 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath(Build.buildTools)
-        classpath(Build.kotlinGradlePlugin)
-        classpath(Build.navigationSafeArgs)
-
+        Build.classPaths.forEach { classpath(it) }
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
