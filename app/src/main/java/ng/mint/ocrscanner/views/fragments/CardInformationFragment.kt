@@ -146,13 +146,13 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
 
     private fun processCard(value: String) {
 
-        when (internetConnection.isConnectingToInternet()) {
-            true -> {
+        when {
+            internetConnection.isConnectingToInternet() -> {
                 progressDialog.showLoading(getString(R.string.processing))
                 viewModel.processCardDetail(value)
             }
 
-            false -> messageDialog.displayMessage(getString(R.string.no_internet_connection))
+            else -> messageDialog.displayMessage(getString(R.string.no_internet_connection))
 
         }
 

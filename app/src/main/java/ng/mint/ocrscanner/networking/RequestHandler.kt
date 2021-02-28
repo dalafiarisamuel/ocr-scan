@@ -26,13 +26,11 @@ open class RequestHandler constructor(coroutineScope: CoroutineScope) {
         coroutineScope.launch(Dispatchers.IO) {
             val response = client.getCardDetail(cardPan = cardPan)
             withContext(Dispatchers.Main) {
-                when (response.isSuccessful) {
-                    true -> {
-                        callback?.onGetCard(response.body())
-                    }
-                    false -> {
-                        callback?.onGetCardError(response.errorBody(), response.code())
-                    }
+                when {
+                    response.isSuccessful -> callback?.onGetCard(response.body())
+
+                    else -> callback?.onGetCardError(response.errorBody(), response.code())
+
                 }
             }
 
