@@ -30,11 +30,11 @@ class CardsViewModel(application: Application, private val repository: CardsRepo
             override fun onGetCard(cardResponse: CardResponse?) {
 
                 viewModelScope.launch {
-                    when (cardResponse == null) {
-                        true -> {
+                    when (cardResponse) {
+                        null -> {
                             updateData(CardResult.Failure)
                         }
-                        false -> {
+                        else -> {
                             updateData(CardResult.Success(cardResponse))
                             insertSingleRecentCard(cardResponse.toRecentCard(value))
                         }

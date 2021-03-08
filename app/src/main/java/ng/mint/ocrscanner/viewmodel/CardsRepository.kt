@@ -6,15 +6,14 @@ import ng.mint.ocrscanner.model.RecentCard
 
 class CardsRepository(private val db: Database) {
 
-    private val recentDao get() = db.recentCardDao()
+    fun getRecentCardDataListLive() = db.recentCardDao().getDataListLive()
 
-    fun getRecentCardDataListLive() = recentDao.getDataListLive()
+    suspend fun insertSingleRecentCard(recentCard: RecentCard) =
+        db.recentCardDao().insertSingle(recentCard)
 
-    suspend fun insertSingleRecentCard(recentCard: RecentCard) = recentDao.insertSingle(recentCard)
+    suspend fun delete(recentCard: RecentCard) = db.recentCardDao().delete(recentCard)
 
-    suspend fun delete(recentCard: RecentCard) = recentDao.delete(recentCard)
+    suspend fun cleanTable() = db.recentCardDao().cleanTable()
 
-    suspend fun cleanTable() = recentDao.cleanTable()
-
-    suspend fun getCount(): Long = recentDao.getCount()
+    suspend fun getCount(): Long = db.recentCardDao().getCount()
 }
