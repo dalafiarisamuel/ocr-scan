@@ -4,6 +4,7 @@ plugins {
     kotlin(Plugins.androidExtension)
     kotlin(Plugins.kapt)
     id("name.remal.check-dependency-updates") version "1.2.2"
+    id(Plugins.daggerHilt)
     id(Plugins.androidxNavigationsafeArgsKotlin)
 }
 

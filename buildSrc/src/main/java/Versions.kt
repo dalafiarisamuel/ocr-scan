@@ -25,4 +25,5 @@ object Versions {
     const val espressoCore = "3.3.0"
     const val androidxTestExt = "1.1.2"
     const val navigationSafeArgs = "2.3.3"
+    const val hiltVersion = "2.33-beta"
 }
