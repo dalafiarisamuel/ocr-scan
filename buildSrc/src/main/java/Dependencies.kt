@@ -36,6 +36,9 @@ object Dependencies {
     private const val lifecycleLiveData =
         "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleComponent}"
     private const val hiltAndroid = "com.google.dagger:hilt-android:${Versions.hiltVersion}"
+    private const val javaxInject: String = "javax.inject:javax.inject:${Versions.javaxInject}"
+    private const val hiltViewModel: String =
+        "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltViewModel}"
 
     val implementations = listOf(
         kotlinStandardLibrary,
@@ -59,6 +62,8 @@ object Dependencies {
         lifecycleCommonJava8,
         lifecycleViewModelKtx,
         lifecycleLiveData,
-        hiltAndroid
+        hiltAndroid,
+        javaxInject,
+        hiltViewModel
     )
 }
