@@ -46,9 +46,9 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    Dependencies.implementations.forEach { implementation(it) }
-    SupportDependencies.supportImplementation.forEach { implementation(it) }
-    TestDependencies.testImplementation.forEach { testImplementation(it) }
-    AndroidTestDependencies.androidTestImplementation.forEach { androidTestImplementation(it) }
-    AnnotationProcessors.AnnotationProcessorsImplementation.forEach { kapt(it) }
+    implementAll(Dependencies.implementations)
+    implementAll(SupportDependencies.supportImplementation)
+    testImplementAll(TestDependencies.testImplementation)
+    testAndroidImplementAll(AndroidTestDependencies.androidTestImplementation)
+    kaptImplementAll(AnnotationProcessors.AnnotationProcessorsImplementation)
 }
