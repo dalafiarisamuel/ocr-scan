@@ -1,19 +1,20 @@
 package ng.mint.ocrscanner.viewmodel
 
-import ng.mint.ocrscanner.database.Database
+import ng.mint.ocrscanner.dao.RecentCardDao
 import ng.mint.ocrscanner.model.RecentCard
+import javax.inject.Inject
 
 
-class CardsRepository(private val db: Database) {
+class CardsRepository @Inject constructor(private val dao: RecentCardDao) {
 
-    fun getRecentCardDataListLive() = db.recentCardDao().getDataListLive()
+    fun getRecentCardDataListLive() = dao.getDataListLive()
 
     suspend fun insertSingleRecentCard(recentCard: RecentCard) =
-        db.recentCardDao().insertSingle(recentCard)
+        dao.insertSingle(recentCard)
 
-    suspend fun delete(recentCard: RecentCard) = db.recentCardDao().delete(recentCard)
+    suspend fun delete(recentCard: RecentCard) = dao.delete(recentCard)
 
-    suspend fun cleanTable() = db.recentCardDao().cleanTable()
+    suspend fun cleanTable() = dao.cleanTable()
 
-    suspend fun getCount(): Long = db.recentCardDao().getCount()
+    suspend fun getCount(): Long = dao.getCount()
 }
