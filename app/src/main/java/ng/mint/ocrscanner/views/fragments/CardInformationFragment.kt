@@ -5,26 +5,25 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import ng.mint.ocrscanner.R
-import ng.mint.ocrscanner.database.Database
 import ng.mint.ocrscanner.databinding.FragmentCardInformationBinding
 import ng.mint.ocrscanner.model.CardResult
 import ng.mint.ocrscanner.networking.ConnectionDetector
-import ng.mint.ocrscanner.viewmodel.CardViewModelFactory
-import ng.mint.ocrscanner.viewmodel.CardsRepository
 import ng.mint.ocrscanner.viewmodel.CardsViewModel
 import ng.mint.ocrscanner.views.activities.BaseActivity
 import ng.mint.ocrscanner.views.common.MessageDialogManager
 import ng.mint.ocrscanner.views.common.ProgressDialogManager
 import java.io.IOException
 
+@AndroidEntryPoint
 class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
 
     companion object {
@@ -38,7 +37,7 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
     private lateinit var progressDialog: ProgressDialogManager
     private lateinit var messageDialog: MessageDialogManager
     private lateinit var internetConnection: ConnectionDetector
-    private lateinit var viewModel: CardsViewModel
+    private val viewModel: CardsViewModel by viewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,16 +71,6 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
                 .navigate(R.id.action_cardInformationFragment_to_recentlyViewedCardsFragment)
 
         }
-
-        val repository = CardsRepository(Database.getInstance(activity))
-
-        val viewModelFactory =
-            CardViewModelFactory(activity.application, repository)
-
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(
-            CardsViewModel::class.java
-        )
 
         lifecycleScope.launchWhenCreated {
             viewModel.data.catch {

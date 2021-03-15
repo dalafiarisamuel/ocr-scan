@@ -1,41 +1,30 @@
 package ng.mint.ocrscanner.views.activities
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import dagger.hilt.android.AndroidEntryPoint
 import ng.mint.ocrscanner.R
-import ng.mint.ocrscanner.database.Database
 import ng.mint.ocrscanner.databinding.ActivityMainBinding
-import ng.mint.ocrscanner.viewmodel.CardViewModelFactory
-import ng.mint.ocrscanner.viewmodel.CardsRepository
 import ng.mint.ocrscanner.viewmodel.CardsViewModel
 
-
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val repository: CardsRepository by lazy {
-        CardsRepository(Database.getInstance(this))
-    }
-
-    private val viewModelFactory: CardViewModelFactory by lazy {
-        CardViewModelFactory(application, repository)
-    }
-    private lateinit var viewModel: CardsViewModel
+    private val viewModel: CardsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestPermissionsFromDevice()
 
-        viewModel = ViewModelProvider(this, viewModelFactory).get(
-            CardsViewModel::class.java
-        )
-
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
+
+        viewModel
+        navController
 
         setContentView(binding.root)
         setLightStatusBar(binding.root)

@@ -1,8 +1,8 @@
 package ng.mint.ocrscanner.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -14,9 +14,10 @@ import ng.mint.ocrscanner.networking.RequestHandler
 import ng.mint.ocrscanner.toRecentCard
 import okhttp3.ResponseBody
 import retrofit2.Call
+import javax.inject.Inject
 
-class CardsViewModel(application: Application, private val repository: CardsRepository) :
-    AndroidViewModel(application) {
+@HiltViewModel
+class CardsViewModel @Inject constructor(private val repository: CardsRepository) : ViewModel() {
 
     private val requestHandler: RequestHandler = RequestHandler(viewModelScope)
 
