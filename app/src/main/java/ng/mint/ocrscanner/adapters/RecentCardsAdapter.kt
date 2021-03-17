@@ -5,42 +5,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ng.mint.ocrscanner.R
 import ng.mint.ocrscanner.adapters.CustomBindAdapter.setCustomText
 import ng.mint.ocrscanner.model.RecentCard
 
 class RecentCardsAdapter(private val caller: (data: RecentCard) -> Unit) :
-    RecyclerView.Adapter<RecentCardsAdapter.RecentCardHolder>() {
+    ListAdapter<RecentCard, RecentCardsAdapter.RecentCardHolder>(DiffCallRecentCard()) {
 
-    private val diffUtil = object : DiffUtil.ItemCallback<RecentCard>() {
-        override fun areItemsTheSame(oldItem: RecentCard, newItem: RecentCard): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: RecentCard, newItem: RecentCard): Boolean {
-            return oldItem.bin == newItem.bin
-        }
-    }
-
-    private val differ = AsyncListDiffer(this, diffUtil)
-
-    fun addData(data: List<RecentCard>) = differ.submitList(data)
-
+    fun addData(data: List<RecentCard>) = submitList(data)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentCardHolder {
 
         return RecentCardHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.recent_cards_view, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.recent_cards_view, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: RecentCardHolder, position: Int) =
-        holder.bind(differ.currentList[position])
+        holder.bind(currentList[position])
 
-    override fun getItemCount(): Int = differ.currentList.size
+    override fun getItemCount(): Int = currentList.size
 
     inner class RecentCardHolder(view: View) :
         RecyclerView.ViewHolder(view) {
@@ -59,5 +47,16 @@ class RecentCardsAdapter(private val caller: (data: RecentCard) -> Unit) :
             cardView.setOnClickListener { caller(data) }
         }
 
+    }
+
+    class DiffCallRecentCard : DiffUtil.ItemCallback<RecentCard>() {
+
+        override fun areItemsTheSame(oldItem: RecentCard, newItem: RecentCard): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: RecentCard, newItem: RecentCard): Boolean {
+            return oldItem == newItem
+        }
     }
 }
