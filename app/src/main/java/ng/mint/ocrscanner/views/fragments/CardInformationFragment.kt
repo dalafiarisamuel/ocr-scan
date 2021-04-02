@@ -22,6 +22,7 @@ import ng.mint.ocrscanner.views.activities.BaseActivity
 import ng.mint.ocrscanner.views.common.MessageDialogManager
 import ng.mint.ocrscanner.views.common.ProgressDialogManager
 import java.io.IOException
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
@@ -34,9 +35,15 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
     private val binding by viewBinding(FragmentCardInformationBinding::bind)
     private lateinit var activity: BaseActivity
 
-    private lateinit var progressDialog: ProgressDialogManager
-    private lateinit var messageDialog: MessageDialogManager
-    private lateinit var internetConnection: ConnectionDetector
+    @Inject
+    lateinit var connectionDetector: ConnectionDetector
+
+    @Inject
+    lateinit var progressDialog: ProgressDialogManager
+
+    @Inject
+    lateinit var messageDialog: MessageDialogManager
+
     private val viewModel: CardsViewModel by viewModels()
 
 
@@ -44,10 +51,6 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
         super.onViewCreated(view, savedInstanceState)
 
         activity = getActivity() as BaseActivity
-
-        progressDialog = activity.progressDialog
-        messageDialog = activity.messageDialog
-        internetConnection = activity.internetConnection
 
 
         binding.panInputField.doAfterTextChanged {
@@ -109,9 +112,9 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
         onCardActivityResult(requestCode = requestCode, data = data)
     }
 
-    private fun onScanClicked(@Suppress("UNUSED_PARAMETER") view: View) {
+    private fun onScanClicked(view: View) {
 
-        val scanIntent = Intent(activity, CardIOActivity::class.java)
+        val scanIntent = Intent(view.context, CardIOActivity::class.java)
         // customize these values to suit your needs.
         scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, false) // default: false
         scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, false) // default: false
@@ -136,7 +139,7 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
     private fun processCard(value: String) {
 
         when {
-            internetConnection.isConnectingToInternet() -> {
+            connectionDetector.isConnectingToInternet() -> {
                 progressDialog.showLoading(getString(R.string.processing))
                 viewModel.processCardDetail(value)
             }
