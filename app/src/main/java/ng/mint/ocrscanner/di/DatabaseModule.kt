@@ -8,6 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ng.mint.ocrscanner.dao.RecentCardDao
 import ng.mint.ocrscanner.database.Database
+import ng.mint.ocrscanner.networking.ConnectionDetector
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -20,5 +21,9 @@ object DatabaseModule {
 
     @[Provides Singleton]
     fun provideRecentCardDao(db: Database): RecentCardDao = db.recentCardDao()
+
+    @[Provides Singleton]
+    fun providesConnectionDetector(@ApplicationContext context: Context) =
+        ConnectionDetector(context)
 
 }

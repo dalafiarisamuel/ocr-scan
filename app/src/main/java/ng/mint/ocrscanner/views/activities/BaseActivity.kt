@@ -13,8 +13,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import ng.mint.ocrscanner.networking.ConnectionDetector
-import ng.mint.ocrscanner.views.common.DialogsCompositionRoot
 
 @Suppress("DEPRECATION")
 abstract class BaseActivity : AppCompatActivity() {
@@ -22,18 +20,6 @@ abstract class BaseActivity : AppCompatActivity() {
     companion object {
         private const val PERMISSION_ALL = 1
     }
-
-    private val connectionDetector: ConnectionDetector by lazy {
-        ConnectionDetector(this)
-    }
-
-    private val dialogsCompositionRoot: DialogsCompositionRoot by lazy {
-        DialogsCompositionRoot(this)
-    }
-
-    val progressDialog get() = dialogsCompositionRoot.progressDialog
-    val messageDialog get() = dialogsCompositionRoot.messageDialog
-    val internetConnection get() = connectionDetector
 
 
     private val permissions = arrayOf(
