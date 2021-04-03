@@ -28,4 +28,6 @@ object Versions {
     const val hiltVersion = "2.33-beta"
     const val javaxInject: String = "1"
     const val hiltViewModel: String = "1.0.0-alpha02"
+    const val androidxActivityKtx = "1.2.2"
+    const val androidxFragmentKtx = "1.3.2"
 }
