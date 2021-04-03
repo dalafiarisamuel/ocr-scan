@@ -17,7 +17,6 @@ import ng.mint.ocrscanner.model.RecentCard
 import ng.mint.ocrscanner.model.RecentCardsState
 import ng.mint.ocrscanner.viewmodel.CardsViewModel
 import ng.mint.ocrscanner.views.activities.BaseActivity
-import java.io.IOException
 
 @AndroidEntryPoint
 class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_cards) {
@@ -48,14 +47,12 @@ class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_c
         val layoutMan = LinearLayoutManager(context)
         binding.savedRecyclerview.layoutManager = layoutMan
         binding.savedRecyclerview.adapter = adapter
+        binding.lifecycleOwner = viewLifecycleOwner
 
 
         lifecycleScope.launchWhenCreated {
-
             viewModel.getRecentCardDataListLive().catch {
-                if (this is IOException) {
-                    emit(mutableListOf())
-                }
+                emit(mutableListOf())
             }.collect { observeData(it) }
         }
     }

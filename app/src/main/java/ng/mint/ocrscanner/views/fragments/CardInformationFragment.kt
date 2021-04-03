@@ -21,7 +21,6 @@ import ng.mint.ocrscanner.viewmodel.CardsViewModel
 import ng.mint.ocrscanner.views.activities.BaseActivity
 import ng.mint.ocrscanner.views.common.MessageDialogManager
 import ng.mint.ocrscanner.views.common.ProgressDialogManager
-import java.io.IOException
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -77,7 +76,7 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
 
         lifecycleScope.launchWhenCreated {
             viewModel.data.catch {
-                if (this is IOException) emit(CardResult.Failure)
+                emit(CardResult.Failure)
             }.collect { observeData(it) }
         }
 
