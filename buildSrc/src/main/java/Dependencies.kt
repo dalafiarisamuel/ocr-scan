@@ -39,6 +39,10 @@ object Dependencies {
     private const val javaxInject: String = "javax.inject:javax.inject:${Versions.javaxInject}"
     private const val hiltViewModel: String =
         "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltViewModel}"
+    private const val androidxActivityKtx =
+        "androidx.activity:activity-ktx:${Versions.androidxActivityKtx}"
+    private const val androidxFragmentKtx =
+        "androidx.fragment:fragment-ktx:${Versions.androidxFragmentKtx}"
 
     val implementations = listOf(
         kotlinStandardLibrary,
@@ -64,6 +68,8 @@ object Dependencies {
         lifecycleLiveData,
         hiltAndroid,
         javaxInject,
-        hiltViewModel
+        hiltViewModel,
+        androidxActivityKtx,
+        androidxFragmentKtx
     )
 }
