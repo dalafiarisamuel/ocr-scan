@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ng.mint.ocrscanner.dao.OfflineCardDao
 import ng.mint.ocrscanner.dao.RecentCardDao
 import ng.mint.ocrscanner.database.Database
 import ng.mint.ocrscanner.networking.ApiInterface
@@ -39,5 +40,8 @@ object ApplicationModule {
     @[Provides Singleton]
     fun providesConnectionDetector(@ApplicationContext context: Context) =
         ConnectionDetector(context)
+
+    @[Provides Singleton]
+    fun providesOfflineCardDao(db: Database): OfflineCardDao = db.offlineCardDao()
 
 }

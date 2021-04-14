@@ -3,12 +3,14 @@ package ng.mint.ocrscanner.database
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import ng.mint.ocrscanner.dao.OfflineCardDao
 import ng.mint.ocrscanner.dao.RecentCardDao
+import ng.mint.ocrscanner.model.OfflineCard
 import ng.mint.ocrscanner.model.RecentCard
 
 
 @androidx.room.Database(
-    entities = [RecentCard::class],
+    entities = [RecentCard::class, OfflineCard::class],
     version = 1,
     exportSchema = false
 )
@@ -37,4 +39,6 @@ abstract class Database : RoomDatabase() {
     }
 
     abstract fun recentCardDao(): RecentCardDao
+
+    abstract fun offlineCardDao(): OfflineCardDao
 }
