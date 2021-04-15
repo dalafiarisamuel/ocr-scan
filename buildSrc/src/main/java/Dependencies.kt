@@ -43,6 +43,9 @@ object Dependencies {
         "androidx.activity:activity-ktx:${Versions.androidxActivityKtx}"
     private const val androidxFragmentKtx =
         "androidx.fragment:fragment-ktx:${Versions.androidxFragmentKtx}"
+    private const val hiltWorker = "androidx.hilt:hilt-work:${Versions.hiltWorker}"
+    private const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
+    private const val workManagerSupport = "androidx.work:work-gcm:${Versions.workManager}"
 
     val implementations = listOf(
         kotlinStandardLibrary,
@@ -70,6 +73,9 @@ object Dependencies {
         javaxInject,
         hiltViewModel,
         androidxActivityKtx,
-        androidxFragmentKtx
+        androidxFragmentKtx,
+        hiltWorker,
+        workManager,
+        workManagerSupport
     )
 }

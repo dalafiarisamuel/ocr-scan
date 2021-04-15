@@ -16,4 +16,5 @@
     <string name="phone">Phone</string>
     <string name="no_cards_added_yet">No Cards saved yet</string>
     <string name="recently_viewed_cards">Recently\nViewed Cards</string>
+    <string name="no_internet_card_saved_for_future">There\'s currently no internet connection, we\'ll save this BIN (%s) and try it later for you.</string>
 </resources>

@@ -1,5 +1,6 @@
 package ng.mint.ocrscanner.views.fragments
 
+import android.icu.text.MessageFormat
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
@@ -114,7 +115,16 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
                 viewModel.processCardDetail(value)
             }
 
-            else -> messageDialog.displayMessage(getString(R.string.no_internet_connection))
+            else -> {
+                messageDialog.displayMessage(
+                    String.format(getString(R.string.no_internet_card_saved_for_future), value)
+                )
+
+                viewModel.insertOfflineCard(value)
+
+                binding.panInputField.text = null
+
+            }
 
         }
 

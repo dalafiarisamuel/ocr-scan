@@ -6,15 +6,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import ng.mint.ocrscanner.formatToViewDateTimeDefaults
 import ng.mint.ocrscanner.model.CardResult
+import ng.mint.ocrscanner.model.OfflineCard
 import ng.mint.ocrscanner.model.RecentCard
 import ng.mint.ocrscanner.networking.RequestHandler
 import ng.mint.ocrscanner.toRecentCard
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class CardsViewModel @Inject constructor(
-    private val repository: CardsRepository,
+    private val cardRepository: CardsRepository,
+    private val offlineCardRepo: OfflineCardRepository,
     private val requestHandler: RequestHandler
 ) : ViewModel() {
 
@@ -46,17 +50,23 @@ class CardsViewModel @Inject constructor(
 
     }
 
-    fun getRecentCardDataListLive() = repository.getRecentCardDataListLive()
+    fun insertOfflineCard(bin: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            offlineCardRepo.insertSingle(
+                OfflineCard(
+                    bin = bin,
+                    dateCreated = Date().formatToViewDateTimeDefaults()
+                )
+            )
+        }
+    }
+
+
+    fun getRecentCardDataListLive() = cardRepository.getRecentCardDataListLive()
 
     private fun insertSingleRecentCard(recentCard: RecentCard) =
-        viewModelScope.launch(Dispatchers.IO) { repository.insertSingleRecentCard(recentCard) }
-
-    fun delete(recentCard: RecentCard) =
-        viewModelScope.launch(Dispatchers.IO) { repository.delete(recentCard) }
-
-    fun cleanTable() = viewModelScope.launch(Dispatchers.IO) { repository.cleanTable() }
-
-    suspend fun getCount(): Long = repository.getCount()
+        viewModelScope.launch(Dispatchers.IO) { cardRepository.insertSingleRecentCard(recentCard) }
 
 
 }
+

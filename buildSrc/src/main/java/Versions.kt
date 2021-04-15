@@ -30,4 +30,6 @@ object Versions {
     const val hiltViewModel: String = "1.0.0-alpha02"
     const val androidxActivityKtx = "1.2.2"
     const val androidxFragmentKtx = "1.3.2"
+    const val hiltWorker = "1.0.0-beta01"
+    const val workManager = "2.4.0"
 }
