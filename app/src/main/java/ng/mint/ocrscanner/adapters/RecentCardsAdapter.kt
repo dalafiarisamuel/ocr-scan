@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ng.mint.ocrscanner.R
 import ng.mint.ocrscanner.adapters.CustomBindAdapter.setCustomText
+import ng.mint.ocrscanner.callbacks.DataHandler
 import ng.mint.ocrscanner.model.RecentCard
 
-class RecentCardsAdapter(private val caller: (data: RecentCard) -> Unit) :
+
+class RecentCardsAdapter(private val caller: DataHandler) :
     ListAdapter<RecentCard, RecentCardsAdapter.RecentCardHolder>(DiffCallRecentCard()) {
 
     fun addData(data: List<RecentCard>) = submitList(data)
@@ -44,7 +46,7 @@ class RecentCardsAdapter(private val caller: (data: RecentCard) -> Unit) :
             cardCountry.setCustomText("${data.emoji} ${data.country}")
             cardPhone.setCustomText(data.phone)
             cardType.setCustomText("${data.scheme}, ${data.currency}")
-            cardView.setOnClickListener { caller(data) }
+            cardView.setOnClickListener { caller.emitData(data) }
         }
 
     }

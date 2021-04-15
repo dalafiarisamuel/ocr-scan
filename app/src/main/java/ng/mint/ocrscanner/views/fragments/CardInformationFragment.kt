@@ -1,6 +1,5 @@
 package ng.mint.ocrscanner.views.fragments
 
-import android.icu.text.MessageFormat
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
@@ -11,12 +10,14 @@ import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import ng.mint.ocrscanner.R
 import ng.mint.ocrscanner.contracts.ScanCreditCardContract
 import ng.mint.ocrscanner.databinding.FragmentCardInformationBinding
 import ng.mint.ocrscanner.model.CardResult
 import ng.mint.ocrscanner.networking.ConnectionDetector
 import ng.mint.ocrscanner.viewmodel.CardsViewModel
+import ng.mint.ocrscanner.viewmodel.observeInLifecycle
 import ng.mint.ocrscanner.views.activities.BaseActivity
 import ng.mint.ocrscanner.views.common.MessageDialogManager
 import ng.mint.ocrscanner.views.common.ProgressDialogManager
@@ -79,15 +80,13 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
 
         }
 
-        lifecycleScope.launchWhenCreated {
-            viewModel.data.catch {
-                emit(CardResult.Failure)
-            }.collect { observeData(it) }
-        }
-
+        viewModel.eventFlow.onEach {
+            observeData(it)
+        }.observeInLifecycle(viewLifecycleOwner)
     }
 
     private fun observeData(cardResult: CardResult) {
+        binding.nextButton.isClickable = true
         progressDialog.dismissDialog()
         if (cardResult is CardResult.Failure) {
             messageDialog.displayMessage(getString(R.string.no_bin_number_was_found))
@@ -111,6 +110,7 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
 
         when {
             connectionDetector.isConnectingToInternet() -> {
+                binding.nextButton.isClickable = false
                 progressDialog.showLoading(getString(R.string.processing))
                 viewModel.processCardDetail(value)
             }
