@@ -1,19 +1,25 @@
 package ng.mint.ocrscanner.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import ng.mint.ocrscanner.formatToViewDateTimeDefaults
 import ng.mint.ocrscanner.model.CardResult
 import ng.mint.ocrscanner.model.OfflineCard
 import ng.mint.ocrscanner.model.RecentCard
+import ng.mint.ocrscanner.model.RecentCardsState
 import ng.mint.ocrscanner.networking.RequestHandler
 import ng.mint.ocrscanner.toRecentCard
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @HiltViewModel
 class CardsViewModel @Inject constructor(
@@ -22,10 +28,18 @@ class CardsViewModel @Inject constructor(
     private val requestHandler: RequestHandler
 ) : ViewModel() {
 
-    var data = MutableSharedFlow<CardResult>(replay = 1)
+    private val appChannel = Channel<CardResult>(Channel.BUFFERED)
+    val eventFlow = appChannel.receiveAsFlow()
+
+
+    var dataFlow: MutableLiveData<RecentCardsState> = MutableLiveData(RecentCardsState.EmptyList)
         private set
 
-    private suspend fun updateData(cardResult: CardResult) = data.emit(cardResult)
+    init {
+        fetchRecentCardAndPostToLiveData()
+    }
+
+    private suspend fun updateData(cardResult: CardResult) = appChannel.send(cardResult)
 
     fun processCardDetail(value: String) {
 
@@ -61,8 +75,21 @@ class CardsViewModel @Inject constructor(
         }
     }
 
+    private fun fetchRecentCardAndPostToLiveData() {
+        viewModelScope.launch {
 
-    fun getRecentCardDataListLive() = cardRepository.getRecentCardDataListLive()
+            cardRepository.getRecentCardDataListLive()
+                .catch { emit(ArrayList()) }
+                .collect {
+                    if (it.isEmpty()) {
+                        dataFlow.postValue(RecentCardsState.EmptyList)
+                    } else {
+                        dataFlow.postValue(RecentCardsState.RecentCardList(it))
+                    }
+                }
+        }
+    }
+
 
     private fun insertSingleRecentCard(recentCard: RecentCard) =
         viewModelScope.launch(Dispatchers.IO) { cardRepository.insertSingleRecentCard(recentCard) }
