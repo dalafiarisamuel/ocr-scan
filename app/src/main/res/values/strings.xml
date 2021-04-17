@@ -17,4 +17,7 @@
     <string name="no_cards_added_yet">No Cards saved yet</string>
     <string name="recently_viewed_cards">Recently\nViewed Cards</string>
     <string name="no_internet_card_saved_for_future">There\'s currently no internet connection, we\'ll save this BIN (%s) and try it later for you.</string>
+    <string name="offline_card_result_notification_text">We\'ve found a result for your offline capture. BIN(%s).</string>
+    <string name="view_detail">View Detail</string>
+    <string name="offline_scan_result">Offline Scan Result</string>
 </resources>

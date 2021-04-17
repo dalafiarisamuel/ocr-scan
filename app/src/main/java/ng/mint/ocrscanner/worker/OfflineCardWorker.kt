@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import ng.mint.ocrscanner.networking.RequestHandler
+import ng.mint.ocrscanner.showBinNotification
 import ng.mint.ocrscanner.toRecentCard
 import ng.mint.ocrscanner.viewmodel.CardsRepository
 import ng.mint.ocrscanner.viewmodel.OfflineCardRepository
@@ -46,6 +47,7 @@ class OfflineCardWorker @AssistedInject constructor(
                                     it.bin ?: ""
                                 )
                             )
+                            appContext.showBinNotification(it.bin ?: "")
                             offlineCardRepo.delete(it)
                         }
                     }
