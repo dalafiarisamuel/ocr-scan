@@ -22,7 +22,15 @@
         <activity
             android:name=".views.activities.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden">
+
+            <intent-filter>
+                <action android:name=".views.activities.MainActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".views.activities.SplashScreenActivity"
             android:screenOrientation="portrait"

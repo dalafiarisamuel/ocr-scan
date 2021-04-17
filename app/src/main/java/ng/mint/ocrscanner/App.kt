@@ -28,7 +28,7 @@ class App : Application(), Configuration.Provider {
         val offlinePeriodicWorker =
             PeriodicWorkRequestBuilder<OfflineCardWorker>(
                 repeatInterval = 30, repeatIntervalTimeUnit = TimeUnit.MINUTES,
-                flexTimeInterval = 15, flexTimeIntervalUnit = TimeUnit.MINUTES
+                flexTimeInterval = 5, flexTimeIntervalUnit = TimeUnit.MINUTES
             ).setConstraints(getJobTimeRequestConstraints()).build()
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
