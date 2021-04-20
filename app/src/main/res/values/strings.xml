@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ORC Scanner</string>
+    <string name="app_name">OCR Scanner</string>
     <string name="credit_card_information">Card\nInformation</string>
     <string name="credit_card_number">Card Number</string>
     <string name="get_information">Get Information</string>
