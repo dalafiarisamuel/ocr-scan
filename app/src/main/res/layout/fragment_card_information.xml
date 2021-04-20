@@ -125,7 +125,7 @@
                 android:paddingEnd="20dp"
                 android:text="@string/get_information"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="13sp" />
 
 
