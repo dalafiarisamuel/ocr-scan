@@ -22,3 +22,9 @@ fun DependencyHandler.kaptImplementAll(list: List<String>) {
         add("kapt", it)
     }
 }
+
+fun DependencyHandler.kaptAndroidTestImplementAll(list: List<String>){
+    list.forEach {
+        add("kaptAndroidTest", it)
+    }
+}

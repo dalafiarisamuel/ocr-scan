@@ -17,7 +17,7 @@ android {
         targetSdkVersion(Versions.targetsdk)
         versionCode = Application.versionCode
         versionName = Application.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "ng.mint.ocrscanner.HiltTestRunner"
     }
 
     buildFeatures {
@@ -52,4 +52,5 @@ dependencies {
     testImplementAll(TestDependencies.testImplementation)
     testAndroidImplementAll(AndroidTestDependencies.androidTestImplementation)
     kaptImplementAll(AnnotationProcessors.AnnotationProcessorsImplementation)
+    kaptAndroidTestImplementAll(AnnotationProcessors.AnnotationProcessorsImplementation)
 }

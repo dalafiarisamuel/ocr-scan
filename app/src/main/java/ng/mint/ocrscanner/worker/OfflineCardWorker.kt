@@ -13,8 +13,8 @@ import kotlinx.coroutines.coroutineScope
 import ng.mint.ocrscanner.networking.RequestHandler
 import ng.mint.ocrscanner.showBinNotification
 import ng.mint.ocrscanner.toRecentCard
-import ng.mint.ocrscanner.viewmodel.CardsRepository
-import ng.mint.ocrscanner.viewmodel.OfflineCardRepository
+import ng.mint.ocrscanner.repositories.DefaultRecentCardsRepository
+import ng.mint.ocrscanner.repositories.DefaultOfflineCardRepository
 import javax.inject.Singleton
 
 @HiltWorker
@@ -22,8 +22,8 @@ class OfflineCardWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted private val workerParams: WorkerParameters,
     @Singleton private val requestHandler: RequestHandler,
-    @Singleton private val offlineCardRepo: OfflineCardRepository,
-    @Singleton private val cardRepository: CardsRepository
+    @Singleton private val offlineCardRepo: DefaultOfflineCardRepository,
+    @Singleton private val cardRepository: DefaultRecentCardsRepository
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result = coroutineScope {
