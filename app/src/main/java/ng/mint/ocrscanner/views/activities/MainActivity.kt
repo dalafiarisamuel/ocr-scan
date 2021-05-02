@@ -27,7 +27,7 @@ class MainActivity : BaseActivity() {
         navController
 
         setContentView(binding.root)
-        setLightStatusBar(binding.root)
+        //setLightStatusBar(binding.root)
 
 
     }

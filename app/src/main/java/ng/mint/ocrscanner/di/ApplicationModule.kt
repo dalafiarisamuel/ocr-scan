@@ -13,6 +13,10 @@ import ng.mint.ocrscanner.networking.ApiInterface
 import ng.mint.ocrscanner.networking.ConnectionDetector
 import ng.mint.ocrscanner.networking.RequestHandler
 import ng.mint.ocrscanner.networking.RetrofitCompat
+import ng.mint.ocrscanner.repositories.DefaultOfflineCardRepository
+import ng.mint.ocrscanner.repositories.DefaultRecentCardsRepository
+import ng.mint.ocrscanner.repositories.OfflineCardRepository
+import ng.mint.ocrscanner.repositories.RecentCardRepository
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -43,5 +47,13 @@ object ApplicationModule {
 
     @[Provides Singleton]
     fun providesOfflineCardDao(db: Database): OfflineCardDao = db.offlineCardDao()
+
+    @[Provides Singleton]
+    fun providesDefaultRecentCardRepository(dao: RecentCardDao) =
+        DefaultRecentCardsRepository(dao) as RecentCardRepository
+
+    @[Provides Singleton]
+    fun providesDefaultOfflineCardRepository(dao: OfflineCardDao) =
+        DefaultOfflineCardRepository(dao) as OfflineCardRepository
 
 }

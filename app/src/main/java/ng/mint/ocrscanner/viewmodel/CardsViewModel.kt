@@ -16,6 +16,8 @@ import ng.mint.ocrscanner.model.OfflineCard
 import ng.mint.ocrscanner.model.RecentCard
 import ng.mint.ocrscanner.model.RecentCardsState
 import ng.mint.ocrscanner.networking.RequestHandler
+import ng.mint.ocrscanner.repositories.OfflineCardRepository
+import ng.mint.ocrscanner.repositories.RecentCardRepository
 import ng.mint.ocrscanner.toRecentCard
 import java.util.*
 import javax.inject.Inject
@@ -23,7 +25,7 @@ import kotlin.collections.ArrayList
 
 @HiltViewModel
 class CardsViewModel @Inject constructor(
-    private val cardRepository: CardsRepository,
+    private val cardRepository: RecentCardRepository,
     private val offlineCardRepo: OfflineCardRepository,
     private val requestHandler: RequestHandler
 ) : ViewModel() {

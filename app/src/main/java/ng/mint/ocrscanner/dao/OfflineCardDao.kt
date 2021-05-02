@@ -1,11 +1,10 @@
 package ng.mint.ocrscanner.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ng.mint.ocrscanner.model.OfflineCard
+import ng.mint.ocrscanner.model.RecentCard
 
 @Dao
 interface OfflineCardDao : BaseDao<OfflineCard> {
@@ -16,7 +15,10 @@ interface OfflineCardDao : BaseDao<OfflineCard> {
     @Query("SELECT * FROM OfflineCard ORDER BY `_id` DESC")
     suspend fun getDataList(): MutableList<OfflineCard>
 
-    @Insert
+    @Query("SELECT * FROM OfflineCard ORDER BY `_id` DESC")
+    fun getDataListLiveData(): LiveData<MutableList<OfflineCard>>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     override suspend fun insertSingle(data: OfflineCard)
 
     @Delete
