@@ -12,9 +12,9 @@ interface RecentCardRepository {
 
     suspend fun insertSingleRecentCard(recentCard: RecentCard)
 
-    suspend fun delete(recentCard: RecentCard)
+    suspend fun deleteRecentCard(recentCard: RecentCard)
 
-    suspend fun cleanTable()
+    suspend fun cleanRecentCardTable()
 
-    suspend fun getCount(): Long
+    suspend fun getRecentCardsCount(): Long
 }
