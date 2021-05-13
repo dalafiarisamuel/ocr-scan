@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -67,7 +66,7 @@ class CardsViewModel @Inject constructor(
     }
 
     fun insertOfflineCard(bin: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             offlineCardRepo.insertSingle(
                 OfflineCard(
                     bin = bin,
@@ -93,9 +92,20 @@ class CardsViewModel @Inject constructor(
     }
 
 
-    private fun insertSingleRecentCard(recentCard: RecentCard) =
-        viewModelScope.launch(Dispatchers.IO) { cardRepository.insertSingleRecentCard(recentCard) }
+    fun insertSingleRecentCard(recentCard: RecentCard) =
+        viewModelScope.launch { cardRepository.insertSingleRecentCard(recentCard) }
 
+    fun deleteRecentCard(recentCard: RecentCard) =
+        viewModelScope.launch { cardRepository.deleteRecentCard(recentCard) }
+
+    suspend fun recentCardsCount(): Long = cardRepository.getRecentCardsCount()
+
+    fun getRecentCardDataListLiveData() = cardRepository.getRecentCardDataListLiveData()
+
+    fun getRecentCardsListFlow() = cardRepository.getRecentCardDataListLive()
+
+    fun cleanRecentCardsTable() =
+        viewModelScope.launch { cardRepository.cleanRecentCardTable() }
 
 }
 

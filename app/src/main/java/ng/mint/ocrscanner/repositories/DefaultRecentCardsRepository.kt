@@ -17,9 +17,9 @@ class DefaultRecentCardsRepository @Inject constructor(private val dao: RecentCa
     override suspend fun insertSingleRecentCard(recentCard: RecentCard) =
         dao.insertSingle(recentCard)
 
-    override suspend fun delete(recentCard: RecentCard) = dao.delete(recentCard)
+    override suspend fun deleteRecentCard(recentCard: RecentCard) = dao.delete(recentCard)
 
-    override suspend fun cleanTable() = dao.cleanTable()
+    override suspend fun cleanRecentCardTable() = dao.cleanTable()
 
-    override suspend fun getCount(): Long = dao.getCount()
+    override suspend fun getRecentCardsCount(): Long = dao.getCount()
 }
