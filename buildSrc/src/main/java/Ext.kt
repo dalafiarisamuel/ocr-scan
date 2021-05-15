@@ -6,7 +6,7 @@ fun DependencyHandler.implementAll(list: List<String>) {
     }
 }
 
-fun DependencyHandler.testImplementAll(list: List<String>){
+fun DependencyHandler.testImplementAll(list: List<String>) {
     list.forEach {
         add("testImplementation", it)
     }
@@ -17,14 +17,21 @@ fun DependencyHandler.testAndroidImplementAll(list: List<String>) {
         add("androidTestImplementation", it)
     }
 }
+
 fun DependencyHandler.kaptImplementAll(list: List<String>) {
     list.forEach {
         add("kapt", it)
     }
 }
 
-fun DependencyHandler.kaptAndroidTestImplementAll(list: List<String>){
+fun DependencyHandler.kaptAndroidTestImplementAll(list: List<String>) {
     list.forEach {
         add("kaptAndroidTest", it)
+    }
+}
+
+fun DependencyHandler.debugImplementationAll(list: List<String>) {
+    list.forEach {
+        add("debugImplementation", it)
     }
 }
