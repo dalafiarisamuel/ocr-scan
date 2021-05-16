@@ -53,4 +53,5 @@ dependencies {
     testAndroidImplementAll(AndroidTestDependencies.androidTestImplementation)
     kaptImplementAll(AnnotationProcessors.AnnotationProcessorsImplementation)
     kaptAndroidTestImplementAll(AnnotationProcessors.AnnotationProcessorsImplementation)
+    debugImplementationAll(DebugDependencies.debugImplementation)
 }

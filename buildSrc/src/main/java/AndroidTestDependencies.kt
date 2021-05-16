@@ -9,6 +9,8 @@ object AndroidTestDependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutineVersion}"
     private const val androidXcore = "androidx.arch.core:core-testing:${Versions.androidXcore}"
     private const val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.hiltVersion}"
+    private const val espressoContrib =
+        "androidx.test.espresso:espresso-contrib:${Versions.espressoContrib}"
 
     val androidTestImplementation =
         listOf(
@@ -19,6 +21,7 @@ object AndroidTestDependencies {
             mockito,
             kotlinxCouroutine,
             androidXcore,
-            hiltTesting
+            hiltTesting,
+            espressoContrib
         )
 }

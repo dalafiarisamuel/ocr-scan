@@ -23,6 +23,7 @@ object Versions {
     const val vectordrawable = "1.1.0"
     const val junit4Version = "4.13"
     const val espressoCore = "3.3.0"
+    const val espressoContrib = "3.3.0"
     const val androidxTestExt = "1.1.2"
     const val navigationSafeArgs = "2.3.3"
     const val hiltVersion = "2.33-beta"
@@ -35,7 +36,7 @@ object Versions {
     const val hamcrest = "1.3"
     const val roboElectric = "4.3.1"
     const val googleTruth = "1.1.2"
-    const val mockito = "2.21.0"
+    const val mockito = "2.10.0"
     const val mockitoDexMaker = "2.28.0"
     const val androidXcore = "2.1.0"
 }
