@@ -39,4 +39,8 @@ object Versions {
     const val mockito = "2.10.0"
     const val mockitoDexMaker = "2.28.0"
     const val androidXcore = "2.1.0"
+    const val loggingInterceptor = "3.8.0"
+    const val okHttpMockServer = "4.7.2"
+    const val okHttp = "4.2.2"
+    const val retroMock = "1.1.0"
 }

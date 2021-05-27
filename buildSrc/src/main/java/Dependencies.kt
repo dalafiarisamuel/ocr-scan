@@ -46,6 +46,9 @@ object Dependencies {
     private const val hiltWorker = "androidx.hilt:hilt-work:${Versions.hiltWorker}"
     private const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
     private const val workManagerSupport = "androidx.work:work-gcm:${Versions.workManager}"
+    private const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.loggingInterceptor}"
+    private const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
+    private const val retroMock = "co.infinum:retromock:${Versions.retroMock}"
 
     val implementations = listOf(
         kotlinStandardLibrary,
@@ -76,6 +79,9 @@ object Dependencies {
         androidxFragmentKtx,
         hiltWorker,
         workManager,
-        workManagerSupport
+        workManagerSupport,
+        loggingInterceptor,
+        okHttp,
+        retroMock
     )
 }

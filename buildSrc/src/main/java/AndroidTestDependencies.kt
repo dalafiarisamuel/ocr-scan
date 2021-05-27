@@ -11,6 +11,8 @@ object AndroidTestDependencies {
     private const val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.hiltVersion}"
     private const val espressoContrib =
         "androidx.test.espresso:espresso-contrib:${Versions.espressoContrib}"
+    private const val okHttpMockServer =
+        "com.squareup.okhttp3:mockwebserver:${Versions.okHttpMockServer}"
 
     val androidTestImplementation =
         listOf(
@@ -22,6 +24,7 @@ object AndroidTestDependencies {
             kotlinxCouroutine,
             androidXcore,
             hiltTesting,
-            espressoContrib
+            espressoContrib,
+            okHttpMockServer
         )
 }
