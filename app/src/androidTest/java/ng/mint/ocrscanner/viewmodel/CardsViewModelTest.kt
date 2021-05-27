@@ -5,16 +5,21 @@ import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import ng.mint.ocrscanner.TestCoroutineRule
 import ng.mint.ocrscanner.getOrAwaitValue
 import ng.mint.ocrscanner.model.RecentCard
+import ng.mint.ocrscanner.networking.ApiInterfaceTest
+import ng.mint.ocrscanner.toRecentCard
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -37,6 +42,10 @@ class CardsViewModelTest {
     @Inject
     @Named("cardsViewModel")
     lateinit var viewModel: CardsViewModel
+
+    @Inject
+    @Named("api_client")
+    lateinit var apiInterfaceTest: ApiInterfaceTest
 
 
     @Before
@@ -218,12 +227,54 @@ class CardsViewModelTest {
         //get item count
         val count = viewModel.recentCardsCount()
 
-        // get all shopping items
+        // get all cards items
         val allRecentCards = viewModel.getRecentCardDataListLiveData().getOrAwaitValue()
 
         // assert that no duplicate entry exists for a single bin number
         assertThat(count).isEqualTo(1L)
         assertThat(allRecentCards).containsExactly(recentCard)
+    }
+
+    @Test
+    fun getCardInformationFromNetwork_returnsSuccessResponse() = runBlocking(Dispatchers.Main) {
+
+        val data = apiInterfaceTest.getCardDetail("53998344")
+
+        assertThat(data.isSuccessful).isTrue()
+        assertThat(data.body()).isNotNull()
+    }
+
+    @Test
+    fun getCardInformationFromNetwork_returnValidCardsData() = runBlocking(Dispatchers.Main) {
+
+        val recentCard = RecentCard(
+            bin = "53998344",
+            dateCreated = "10-12-2020",
+            bank = "Jyske Bank",
+            currency = "DKK",
+            country = "Denmark",
+            phone = "+4589893300",
+            emoji = "🇩🇰",
+            scheme = "visa",
+            type = "debit"
+        )
+
+        val data = apiInterfaceTest.getCardDetail("53998344")
+            .body()!!.toRecentCard("53998344").apply {
+                dateCreated = "10-12-2020"
+            }
+
+        assertThat(data).isEqualTo(recentCard)
+    }
+
+    @Test
+    fun getCardInformationFromNetwork_returnsNotFound() = runBlocking(Dispatchers.Main) {
+
+        val data = apiInterfaceTest.getCardDetailWhenCardNotFound("00000000")
+
+        assertThat(data.isSuccessful).isFalse()
+        assertThat(data.code()).isEqualTo(HttpURLConnection.HTTP_NOT_FOUND)
+        assertThat(data.body()).isNull()
     }
 
 
