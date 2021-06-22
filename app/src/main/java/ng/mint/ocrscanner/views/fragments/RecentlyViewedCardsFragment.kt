@@ -7,13 +7,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ng.mint.ocrscanner.R
-import ng.mint.ocrscanner.adapters.CustomBindAdapter.setData
+import ng.mint.ocrscanner.adapters.RecentCardsAdapter
 import ng.mint.ocrscanner.callbacks.DataHandler
+import ng.mint.ocrscanner.callbacks.SwipeToDeleteCallback
 import ng.mint.ocrscanner.databinding.FragmentRecentlyViewedCardsBinding
 import ng.mint.ocrscanner.model.RecentCard
-import ng.mint.ocrscanner.model.RecentCardsState
 import ng.mint.ocrscanner.viewmodel.CardsViewModel
 
 @AndroidEntryPoint
@@ -40,6 +42,22 @@ class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_c
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
         binding.dataHandler = dataHandler
+
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+                val adapter = binding.savedRecyclerview.adapter as? RecentCardsAdapter
+                adapter?.run {
+                    val data = this.getItemAt(viewHolder.adapterPosition)
+                    if (data != null) {
+                        viewModel.deleteRecentCard(data)
+                    }
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(binding.savedRecyclerview)
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

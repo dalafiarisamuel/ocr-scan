@@ -32,8 +32,9 @@ class RecentCardsAdapter(private val caller: DataHandler) :
 
     override fun getItemCount(): Int = currentList.size
 
-    inner class RecentCardHolder(view: View) :
-        RecyclerView.ViewHolder(view) {
+    fun getItemAt(position: Int): RecentCard? = currentList[position]
+
+    inner class RecentCardHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private val bin: TextView = view.findViewById(R.id.bin)
         private val cardCountry: TextView = view.findViewById(R.id.card_country)
