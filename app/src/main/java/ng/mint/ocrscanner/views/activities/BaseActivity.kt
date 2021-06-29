@@ -29,24 +29,6 @@ abstract class BaseActivity : AppCompatActivity() {
         Manifest.permission.CAMERA
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        makeActivityFullScreen()
-        changeStatusBarColorToTransparent()
-    }
-
-
-    private fun makeActivityFullScreen() {
-        this.window.decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-    }
-
-    private fun changeStatusBarColorToTransparent() {
-        this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        this.window.statusBarColor = Color.TRANSPARENT
-    }
-
     open fun setLightStatusBar(view: View?) {
         view?.run {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
