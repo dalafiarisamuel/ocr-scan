@@ -2,16 +2,18 @@ package ng.mint.ocrscanner.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import ng.mint.ocrscanner.TestCoroutineRule
 import ng.mint.ocrscanner.getOrAwaitValue
+import ng.mint.ocrscanner.model.CardResponse
+import ng.mint.ocrscanner.model.CardResult
 import ng.mint.ocrscanner.model.RecentCard
 import ng.mint.ocrscanner.networking.ApiInterfaceTest
 import ng.mint.ocrscanner.toRecentCard
@@ -56,6 +58,30 @@ class CardsViewModelTest {
     @After
     fun clearList() = runBlockingTest {
         viewModel.cleanRecentCardsTable()
+    }
+
+
+    @Test
+    fun verifyDefaultStateOfCardResultStateIsEmpty() = runBlocking {
+        viewModel.cardResult.test {
+            val defaultState = awaitItem()
+            assertThat(defaultState).isEqualTo(CardResult.EmptyState)
+        }
+
+    }
+
+    @Test
+    fun verifyStateOfCardResultStateIsUpdated() = runBlocking {
+
+        val response = CardResponse()
+
+        viewModel.updateData(CardResult.Success(response))
+
+        viewModel.cardResult.test {
+            val state = awaitItem()
+            assertThat(state).isEqualTo(CardResult.Success(response))
+        }
+
     }
 
     @Test
@@ -236,7 +262,7 @@ class CardsViewModelTest {
     }
 
     @Test
-    fun getCardInformationFromNetwork_returnsSuccessResponse() = runBlocking(Dispatchers.Main) {
+    fun getCardInformationFromNetwork_returnsSuccessResponse() = runBlocking {
 
         val data = apiInterfaceTest.getCardDetail("53998344")
 
@@ -245,7 +271,7 @@ class CardsViewModelTest {
     }
 
     @Test
-    fun getCardInformationFromNetwork_returnValidCardsData() = runBlocking(Dispatchers.Main) {
+    fun getCardInformationFromNetwork_returnValidCardsData() = runBlocking {
 
         val recentCard = RecentCard(
             bin = "53998344",
@@ -268,7 +294,7 @@ class CardsViewModelTest {
     }
 
     @Test
-    fun getCardInformationFromNetwork_returnsNotFound() = runBlocking(Dispatchers.Main) {
+    fun getCardInformationFromNetwork_returnsNotFound() = runBlocking {
 
         val data = apiInterfaceTest.getCardDetailWhenCardNotFound("00000000")
 

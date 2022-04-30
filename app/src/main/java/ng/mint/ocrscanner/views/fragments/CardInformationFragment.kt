@@ -4,31 +4,36 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ng.mint.ocrscanner.R
 import ng.mint.ocrscanner.contracts.ScanCreditCardContract
 import ng.mint.ocrscanner.databinding.FragmentCardInformationBinding
 import ng.mint.ocrscanner.model.CardResult
 import ng.mint.ocrscanner.networking.ConnectionDetector
 import ng.mint.ocrscanner.viewmodel.CardsViewModel
-import ng.mint.ocrscanner.viewmodel.observeInLifecycle
 import ng.mint.ocrscanner.views.activities.BaseActivity
 import ng.mint.ocrscanner.views.common.MessageDialogManager
 import ng.mint.ocrscanner.views.common.ProgressDialogManager
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
+class CardInformationFragment(
+    var viewModel: CardsViewModel? = null
+) : Fragment(R.layout.fragment_card_information) {
 
     companion object {
 
         const val MY_SCAN_REQUEST_CODE = 500
     }
 
-    private val binding by viewBinding(FragmentCardInformationBinding::bind)
+    val binding by viewBinding(FragmentCardInformationBinding::bind)
 
     @Inject
     lateinit var connectionDetector: ConnectionDetector
@@ -39,8 +44,6 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
     @Inject
     lateinit var messageDialog: MessageDialogManager
 
-    private val viewModel: CardsViewModel by viewModels()
-
     private val openScanCreditCard = registerForActivityResult(ScanCreditCardContract()) {
 
         it?.run {
@@ -49,6 +52,12 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
                 processCard(panNumber)
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = viewModel ?: ViewModelProvider(this)[CardsViewModel::class.java]
     }
 
 
@@ -77,9 +86,13 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
 
         }
 
-        viewModel.eventFlow.onEach {
-            observeData(it)
-        }.observeInLifecycle(viewLifecycleOwner)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel?.cardResult?.collectLatest { observeData(it) }
+            }
+        }
+
+
     }
 
     private fun observeData(cardResult: CardResult) {
@@ -97,7 +110,7 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
             is CardResult.Success -> {
                 binding.bankData = cardResult.data
             }
-            is CardResult.Failure -> {
+            is CardResult.EmptyState, CardResult.Failure -> {
                 binding.cardInformationLayout.visibility = View.GONE
             }
         }
@@ -109,15 +122,14 @@ class CardInformationFragment : Fragment(R.layout.fragment_card_information) {
             connectionDetector.isConnectingToInternet() -> {
                 binding.nextButton.isClickable = false
                 progressDialog.showLoading(getString(R.string.processing))
-                viewModel.processCardDetail(value)
+                viewModel?.processCardDetail(value)
             }
 
             else -> {
                 messageDialog.displayMessage(
                     String.format(getString(R.string.no_internet_card_saved_for_future), value)
                 )
-
-                viewModel.insertOfflineCard(value)
+                viewModel?.insertOfflineCard(value)
 
                 binding.panInputField.text = null
 

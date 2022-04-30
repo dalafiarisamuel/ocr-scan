@@ -1,34 +1,26 @@
 package ng.mint.ocrscanner.repositories
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+import ng.mint.ocrscanner.dao.OfflineCardDao
 import ng.mint.ocrscanner.model.OfflineCard
 
-class FakeOfflineCardsRepository : OfflineCardRepository {
+class FakeOfflineCardsRepository(private val dao: OfflineCardDao) : OfflineCardRepository {
 
-    private val allOfflineCard = mutableListOf<OfflineCard>()
-    private val flowAllOfflineCards = MutableStateFlow(allOfflineCard)
+    override fun getDataListLive(): Flow<MutableList<OfflineCard>> = dao.getDataListLive()
 
-    private suspend fun refreshFlow() = flowAllOfflineCards.emit(allOfflineCard)
-
-    override fun getDataListLive(): Flow<MutableList<OfflineCard>> = flowAllOfflineCards
-
-    override suspend fun getDataList(): MutableList<OfflineCard> = allOfflineCard
+    override suspend fun getDataList(): MutableList<OfflineCard> = dao.getDataList()
 
     override suspend fun insertSingle(data: OfflineCard) {
-        allOfflineCard.add(data)
-        refreshFlow()
+        dao.insertSingle(data)
     }
 
     override suspend fun delete(data: OfflineCard) {
-        allOfflineCard.remove(data)
-        refreshFlow()
+        dao.delete(data)
     }
 
     override suspend fun cleanTable() {
-        allOfflineCard.clear()
-        refreshFlow()
+        dao.cleanTable()
     }
 
-    override suspend fun getCount(): Long = allOfflineCard.size.toLong()
+    override suspend fun getCount(): Long = dao.getCount()
 }
