@@ -2,11 +2,14 @@ package ng.mint.ocrscanner.dao
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
+import ng.mint.ocrscanner.TestCoroutineRule
 import ng.mint.ocrscanner.database.Database
 import ng.mint.ocrscanner.getOrAwaitValue
 import ng.mint.ocrscanner.model.OfflineCard
@@ -25,6 +28,9 @@ class OfflineCardDaoTest {
     @get: Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    @get:Rule
+    val testCoroutineRule = TestCoroutineRule()
+
     @get: Rule
     var hiltRule = HiltAndroidRule(this)
 
@@ -32,7 +38,6 @@ class OfflineCardDaoTest {
     @Named("test_database")
     lateinit var database: Database
     lateinit var offlineCardDao: OfflineCardDao
-
 
     @Before
     fun setUp() {
@@ -48,7 +53,7 @@ class OfflineCardDaoTest {
     }
 
     @Test
-    fun insertOfflineCard() = runBlockingTest {
+    fun insertOfflineCard() = runBlocking {
 
         val offlineCard = OfflineCard(
             id = 1,
@@ -59,13 +64,16 @@ class OfflineCardDaoTest {
         //insert offline card
         offlineCardDao.insertSingle(offlineCard)
 
-        val allOfflineCard = offlineCardDao.getDataListLiveData().getOrAwaitValue()
+        offlineCardDao.getDataListLive().test {
+            val allOfflineCard = awaitItem()
 
-        assertThat(allOfflineCard).contains(offlineCard)
+            assertThat(allOfflineCard).containsExactly(offlineCard)
+        }
+
     }
 
     @Test
-    fun deleteOfflineCard() = runBlockingTest {
+    fun deleteOfflineCard() = runBlocking {
 
         val offlineCard = OfflineCard(
             id = 1,
@@ -79,9 +87,13 @@ class OfflineCardDaoTest {
         // delete offline card
         offlineCardDao.delete(offlineCard)
 
-        val allOfflineCard = offlineCardDao.getDataListLiveData().getOrAwaitValue()
+        offlineCardDao.getDataListLive().test {
+            val allOfflineCard = awaitItem()
+            assertThat(allOfflineCard).doesNotContain(offlineCard)
+        }
 
-        assertThat(allOfflineCard).doesNotContain(offlineCard)
+        //val allOfflineCard = offlineCardDao.getDataListLiveData().getOrAwaitValue()
+
     }
 
     @Test

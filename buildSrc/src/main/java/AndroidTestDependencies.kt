@@ -13,6 +13,7 @@ object AndroidTestDependencies {
         "androidx.test.espresso:espresso-contrib:${Versions.espressoContrib}"
     private const val okHttpMockServer =
         "com.squareup.okhttp3:mockwebserver:${Versions.okHttpMockServer}"
+    private const val turbine = "app.cash.turbine:turbine:${Versions.turbine}"
 
     val androidTestImplementation =
         listOf(
@@ -25,6 +26,7 @@ object AndroidTestDependencies {
             androidXcore,
             hiltTesting,
             espressoContrib,
-            okHttpMockServer
+            okHttpMockServer,
+            turbine
         )
 }

@@ -4,10 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ng.mint.ocrscanner.formatToViewDateTimeDefaults
 import ng.mint.ocrscanner.model.CardResult
@@ -18,19 +18,20 @@ import ng.mint.ocrscanner.networking.RequestHandler
 import ng.mint.ocrscanner.repositories.OfflineCardRepository
 import ng.mint.ocrscanner.repositories.RecentCardRepository
 import ng.mint.ocrscanner.toRecentCard
+import ng.mint.ocrscanner.util.AppCoroutineDispatchers
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @HiltViewModel
 class CardsViewModel @Inject constructor(
     private val cardRepository: RecentCardRepository,
     private val offlineCardRepo: OfflineCardRepository,
-    private val requestHandler: RequestHandler
+    private val requestHandler: RequestHandler,
+    private val appCoroutineDispatcher: AppCoroutineDispatchers
 ) : ViewModel() {
 
-    private val appChannel = Channel<CardResult>(Channel.BUFFERED)
-    val eventFlow = appChannel.receiveAsFlow()
+    private val cardResultStateFlow = MutableStateFlow<CardResult>(CardResult.EmptyState)
+    val cardResult = cardResultStateFlow.asStateFlow()
 
 
     var dataFlow: MutableLiveData<RecentCardsState> = MutableLiveData(RecentCardsState.EmptyList)
@@ -40,11 +41,13 @@ class CardsViewModel @Inject constructor(
         fetchRecentCardAndPostToLiveData()
     }
 
-    private suspend fun updateData(cardResult: CardResult) = appChannel.send(cardResult)
+    fun updateData(cardResult: CardResult) {
+        cardResultStateFlow.value = cardResult
+    }
 
     fun processCardDetail(value: String) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(appCoroutineDispatcher.io) {
 
             val request = requestHandler.getCardDetail(value)
             if (request.isSuccessful) {
@@ -66,7 +69,7 @@ class CardsViewModel @Inject constructor(
     }
 
     fun insertOfflineCard(bin: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(appCoroutineDispatcher.io) {
             offlineCardRepo.insertSingle(
                 OfflineCard(
                     bin = bin,
@@ -77,11 +80,10 @@ class CardsViewModel @Inject constructor(
     }
 
     private fun fetchRecentCardAndPostToLiveData() {
-        viewModelScope.launch {
-
+        viewModelScope.launch(appCoroutineDispatcher.io) {
             cardRepository.getRecentCardDataListLive()
                 .catch { emit(ArrayList()) }
-                .collect {
+                .collectLatest {
                     if (it.isEmpty()) {
                         dataFlow.postValue(RecentCardsState.EmptyList)
                     } else {
@@ -92,11 +94,22 @@ class CardsViewModel @Inject constructor(
     }
 
 
-    fun insertSingleRecentCard(recentCard: RecentCard) =
-        viewModelScope.launch { cardRepository.insertSingleRecentCard(recentCard) }
+    fun insertSingleRecentCard(recentCard: RecentCard) {
+        viewModelScope.launch(appCoroutineDispatcher.io) {
+            cardRepository.insertSingleRecentCard(
+                recentCard
+            )
+        }
+    }
 
-    fun deleteRecentCard(recentCard: RecentCard) =
-        viewModelScope.launch { cardRepository.deleteRecentCard(recentCard) }
+
+    fun deleteRecentCard(recentCard: RecentCard) {
+        viewModelScope.launch(appCoroutineDispatcher.io) {
+            cardRepository.deleteRecentCard(
+                recentCard
+            )
+        }
+    }
 
     suspend fun recentCardsCount(): Long = cardRepository.getRecentCardsCount()
 
@@ -104,8 +117,11 @@ class CardsViewModel @Inject constructor(
 
     fun getRecentCardsListFlow() = cardRepository.getRecentCardDataListLive()
 
-    fun cleanRecentCardsTable() =
-        viewModelScope.launch { cardRepository.cleanRecentCardTable() }
+    fun cleanRecentCardsTable() {
+        viewModelScope.launch(appCoroutineDispatcher.io) {
+            cardRepository.cleanRecentCardTable()
+        }
+    }
 
 }
 

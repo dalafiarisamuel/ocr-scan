@@ -17,9 +17,9 @@ object RetrofitCompat {
             .followSslRedirects(true)
             .retryOnConnectionFailure(true)
             .cache(null)
-            .connectTimeout(120, TimeUnit.SECONDS)
-            .readTimeout(120, TimeUnit.SECONDS)
-            .writeTimeout(120, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
 
         if (token != "false") {
             okHttpBuilder.addInterceptor { chain: Interceptor.Chain ->

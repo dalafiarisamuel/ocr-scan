@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,10 +19,11 @@ import ng.mint.ocrscanner.model.RecentCard
 import ng.mint.ocrscanner.viewmodel.CardsViewModel
 
 @AndroidEntryPoint
-class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_cards) {
+class RecentlyViewedCardsFragment(
+    var viewModel: CardsViewModel? = null
+) : Fragment(R.layout.fragment_recently_viewed_cards) {
     val binding by viewBinding(FragmentRecentlyViewedCardsBinding::bind)
 
-    private val viewModel: CardsViewModel by viewModels()
 
     val dataHandler = object : DataHandler {
         override fun emitData(data: RecentCard) {
@@ -37,6 +38,8 @@ class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_c
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = viewModel ?: ViewModelProvider(this)[CardsViewModel::class.java]
+
         binding.backArrow.setOnClickListener { it.findNavController().popBackStack() }
 
         binding.lifecycleOwner = viewLifecycleOwner
@@ -50,7 +53,7 @@ class RecentlyViewedCardsFragment : Fragment(R.layout.fragment_recently_viewed_c
                 adapter?.run {
                     val data = this.getItemAt(viewHolder.adapterPosition)
                     if (data != null) {
-                        viewModel.deleteRecentCard(data)
+                        viewModel?.deleteRecentCard(data)
                     }
                 }
             }

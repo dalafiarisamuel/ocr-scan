@@ -13,8 +13,10 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import ng.mint.ocrscanner.R
+import ng.mint.ocrscanner.TestCoroutineRule
 import ng.mint.ocrscanner.adapters.CustomBindAdapter.setData
 import ng.mint.ocrscanner.adapters.RecentCardsAdapter
 import ng.mint.ocrscanner.getOrAwaitValue
@@ -22,11 +24,14 @@ import ng.mint.ocrscanner.launchFragmentInHiltContainer
 import ng.mint.ocrscanner.model.RecentCard
 import ng.mint.ocrscanner.model.RecentCardsState
 import ng.mint.ocrscanner.viewmodel.CardsViewModel
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
+import javax.inject.Inject
+import javax.inject.Named
 
 @ExperimentalCoroutinesApi
 @MediumTest
@@ -37,11 +42,23 @@ class RecentlyViewedCardsFragmentTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
+    val testCoroutineRule = TestCoroutineRule()
+
+    @get:Rule
     var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    @Named("cardsViewModel")
+    lateinit var cardsViewModel: CardsViewModel
 
     @Before
     fun setUp() {
         hiltRule.inject()
+    }
+
+    @After
+    fun clearList() = runBlockingTest {
+        cardsViewModel.cleanRecentCardsTable()
     }
 
 
@@ -64,7 +81,6 @@ class RecentlyViewedCardsFragmentTest {
 
         val navController = mock(NavController::class.java)
         launchFragmentInHiltContainer<RecentlyViewedCardsFragment> {
-
             Navigation.setViewNavController(requireView(), navController)
         }
 
@@ -94,6 +110,8 @@ class RecentlyViewedCardsFragmentTest {
 
             Navigation.setViewNavController(requireView(), navController)
 
+            this.viewModel = cardsViewModel
+
             binding.savedRecyclerview.setData(
                 RecentCardsState.RecentCardList(
                     mutableListOf(recentCard)
@@ -107,16 +125,16 @@ class RecentlyViewedCardsFragmentTest {
             )
         )
 
-        verify(navController).navigate(RecentlyViewedCardsFragmentDirections.actionRecentlyViewedCardsFragmentToRecentCardDetailFragment(
-            recentCard
-        ))
+        verify(navController).navigate(
+            RecentlyViewedCardsFragmentDirections.actionRecentlyViewedCardsFragmentToRecentCardDetailFragment(
+                recentCard
+            )
+        )
 
     }
 
-    /*@Test
-    fun onRecentCardSwipeLeft_deleteItem() = runBlockingTest {
 
-        var viewModelTest: CardsViewModel? = null
+    fun onRecentCardSwipeLeft_deleteItem() = runBlocking {
 
         val recentCard = RecentCard(
             bin = "524523",
@@ -128,13 +146,18 @@ class RecentlyViewedCardsFragmentTest {
             emoji = "🇳🇬",
             scheme = "Master",
             type = "Credit",
-            id = 1
+            id = 2
         )
+
 
         val navController = mock(NavController::class.java)
         launchFragmentInHiltContainer<RecentlyViewedCardsFragment> {
 
             Navigation.setViewNavController(requireView(), navController)
+
+            viewModel = cardsViewModel
+
+            cardsViewModel.insertSingleRecentCard(recentCard)
 
             binding.savedRecyclerview.setData(
                 RecentCardsState.RecentCardList(
@@ -142,8 +165,10 @@ class RecentlyViewedCardsFragmentTest {
                 ), dataHandler
             )
 
-            viewModelTest = viewModel
         }
+
+        val list1 = cardsViewModel.getRecentCardDataListLiveData().getOrAwaitValue()
+        assertThat(list1).contains(recentCard)
 
         onView(withId(R.id.saved_recyclerview)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecentCardsAdapter.RecentCardHolder>(
@@ -152,8 +177,8 @@ class RecentlyViewedCardsFragmentTest {
             )
         )
 
-        val list = viewModelTest?.getRecentCardDataListLiveData()?.getOrAwaitValue()
-        assertThat(list).isEmpty()
+        val list = cardsViewModel.getRecentCardDataListLiveData().getOrAwaitValue()
+        assertThat(list).doesNotContain(recentCard)
 
-    }*/
+    }
 }

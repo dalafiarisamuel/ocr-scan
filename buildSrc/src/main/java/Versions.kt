@@ -1,7 +1,7 @@
 object Versions {
     const val gradle = "4.1.1"
-    const val compilesdk = 29
-    const val minsdk = 23
+    const val compilesdk = 31
+    const val minsdk = 24
     const val targetsdk = 29
     const val kotlin = "1.4.20"
     const val ktx = "1.3.2"
@@ -17,7 +17,7 @@ object Versions {
     const val moshiKotlin = "1.12.0"
     const val moshiKotlinCodegen = moshiKotlin
     const val ioCard = "5.5.1"
-    const val lifecycleComponent = "2.3.0"
+    const val lifecycleComponent = "2.4.0"
     const val androidxLegacySupport = "1.0.0"
     const val androidxAnnotation = "1.2.0"
     const val vectordrawable = "1.1.0"
@@ -43,4 +43,5 @@ object Versions {
     const val okHttpMockServer = "4.7.2"
     const val okHttp = "4.2.2"
     const val retroMock = "1.1.0"
+    const val turbine = "0.7.0"
 }

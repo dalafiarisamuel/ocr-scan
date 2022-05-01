@@ -17,6 +17,8 @@ import ng.mint.ocrscanner.repositories.DefaultOfflineCardRepository
 import ng.mint.ocrscanner.repositories.DefaultRecentCardsRepository
 import ng.mint.ocrscanner.repositories.OfflineCardRepository
 import ng.mint.ocrscanner.repositories.RecentCardRepository
+import ng.mint.ocrscanner.util.AppCoroutineDispatchers
+import ng.mint.ocrscanner.util.DefaultAppCoroutineDispatcher
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -56,4 +58,7 @@ object ApplicationModule {
     fun providesDefaultOfflineCardRepository(dao: OfflineCardDao) =
         DefaultOfflineCardRepository(dao) as OfflineCardRepository
 
+    @[Provides Singleton]
+    fun providesDefaultAppCoroutineDispatcher() =
+        DefaultAppCoroutineDispatcher() as AppCoroutineDispatchers
 }
