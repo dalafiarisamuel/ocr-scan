@@ -1,23 +1,22 @@
 plugins {
-    id(Plugins.androidApplication)
-    kotlin(Plugins.android)
-    kotlin(Plugins.kapt)
-    id("name.remal.check-dependency-updates") version "1.2.2"
-    id(Plugins.daggerHilt)
-    id(Plugins.androidxNavigationsafeArgsKotlin)
-    id(Plugins.kotlinParcelize)
+    androidApplication
+    androidLibrary
+    kaptPlugin
+    daggerHilt
+    navigationSafeArgsKotlin
+    kotlinParcelize
 }
 
 android {
-    compileSdkVersion(Versions.compilesdk)
+    compileSdk = Versions.compilesdk
 
     defaultConfig {
         applicationId = Application.id
-        minSdkVersion(Versions.minsdk)
-        targetSdkVersion(Versions.targetsdk)
+        minSdk = Versions.minsdk
+        targetSdk = Versions.targetsdk
         versionCode = Application.versionCode
         versionName = Application.versionName
-        testInstrumentationRunner = "ng.mint.ocrscanner.HiltTestRunner"
+        testInstrumentationRunner = Application.testInstrumentationRunner
     }
 
     buildFeatures {
@@ -43,6 +42,29 @@ android {
     kotlinOptions {
         jvmTarget = Java.javaVersion.toString()
     }
+
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/LICENSE")
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/license.txt")
+        exclude("META-INF/NOTICE")
+        exclude("META-INF/NOTICE.txt")
+        exclude("META-INF/notice.txt")
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
+        exclude("META-INF/*.kotlin_module")
+    }
+}
+
+kotlin {
+
+    val compilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = Java.javaVersion.toString()
+        kotlinOptions.freeCompilerArgs += compilerArgs
+    }
+
 }
 
 dependencies {
