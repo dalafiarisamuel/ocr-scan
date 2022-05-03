@@ -32,5 +32,6 @@
 
 
 ## App Screenshots
-![App screenshot](./images/image1.png) 
-![App screenshot](./images/image2.png)
+<img align="left" src="./images/image1.png" alt="Screenshot 1" width="40%" height="40%"/>
+
+<img align="right" src="./images/image2.png" alt="Screenshot 2" width="40%" height="40%"/> 
