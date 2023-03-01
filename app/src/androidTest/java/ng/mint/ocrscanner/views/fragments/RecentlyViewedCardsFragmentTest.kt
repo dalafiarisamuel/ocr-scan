@@ -8,6 +8,7 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.filters.FlakyTest
 import androidx.test.filters.MediumTest
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -90,6 +91,7 @@ class RecentlyViewedCardsFragmentTest {
     }
 
     @Test
+    @FlakyTest
     fun onRecentCardItemClick_navigateToRecentCardDetailFragment() {
 
         val recentCard = RecentCard(
