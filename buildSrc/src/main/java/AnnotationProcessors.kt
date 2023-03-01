@@ -7,8 +7,9 @@ object AnnotationProcessors {
     private const val hiltAndroid: String =
         "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
     private const val hiltWorkerCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltWorker}"
+    private const val sqlLiteJdbc = "org.xerial:sqlite-jdbc:3.36.0"
 
 
     val AnnotationProcessorsImplementation =
-        listOf(moshiKotlinCodgen, roomCompiler, hiltAndroid, hiltCompiler, hiltWorkerCompiler)
+        listOf(moshiKotlinCodgen, roomCompiler, hiltAndroid, hiltCompiler, hiltWorkerCompiler, sqlLiteJdbc)
 }
